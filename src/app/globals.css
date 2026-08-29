@@ -1,26 +1,133 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
+/* Enable class-based dark mode for Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
+
+/* ─── Light Mode (default) ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8F8FA;
+  --foreground: #141416;
+  --card-bg: #FFFFFF;
+  --surface: #FCFAF6;
+  --primary: #E23744;
+  --primary-hover: #CB202D;
+  --secondary: #2563EB;
+  --hot-accent: #E23744;
+  --cold-accent: #2563EB;
+  --border-color: #EFEFEF;
+  --muted: #F3F4F6;
+  --muted-fg: #6B7280;
+}
+
+/* ─── Dark Mode ─── */
+.dark {
+  --background: #0F0F11;
+  --foreground: #F0EEE9;
+  --card-bg: #1A1A1F;
+  --surface: #1E1C1A;
+  --primary: #E23744;
+  --primary-hover: #f04452;
+  --secondary: #3B82F6;
+  --hot-accent: #E23744;
+  --cold-accent: #3B82F6;
+  --border-color: #2A2A30;
+  --muted: #1E1E24;
+  --muted-fg: #9CA3AF;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card-bg: var(--card-bg);
+  --color-surface: var(--surface);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-hot: var(--hot-accent);
+  --color-cold: var(--cold-accent);
+  --color-border-custom: var(--border-color);
+  --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-jakarta), sans-serif;
+  overflow-x: hidden;
+  letter-spacing: -0.015em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─── Dark mode overrides for hardcoded colors used in JSX ─── */
+
+/* White cards → dark card surface */
+.dark .bg-white { background-color: var(--card-bg) !important; }
+
+/* Warm cream surface (#FCFAF6) → dark surface */
+.dark .bg-\[\#FCFAF6\] { background-color: var(--surface) !important; }
+.dark .bg-\[\#F8F8FA\] { background-color: var(--muted) !important; }
+
+/* Borders */
+.dark .border-\[\#EFEFEF\] { border-color: var(--border-color) !important; }
+
+/* Text colors */
+.dark .text-\[\#2C1D11\] { color: #F0EEE9 !important; }
+
+/* Navbar bg */
+.dark .bg-\[\#FCFAF6\]\/90 { background-color: rgba(26, 26, 31, 0.92) !important; }
+
+/* Hero section gradients */
+.dark .from-\[\#FFFDF9\] { --tw-gradient-from: #0F0F11 !important; }
+.dark .via-\[\#FCFAF6\] { --tw-gradient-via: #141418 !important; }
+.dark .to-\[\#F8F8FA\] { --tw-gradient-to: #0F0F11 !important; }
+
+/* Smooth color transitions on interactive elements */
+.dark button,
+.dark a,
+.dark input,
+.dark textarea,
+.dark select {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb { background: #3A3A44; }
+.dark ::-webkit-scrollbar-track { background: var(--background); }
+
+/* Smooth micro animation */
+main {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaflet map styles */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  z-index: 1;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #E0E0E0;
+  border-radius: 2px;
 }
