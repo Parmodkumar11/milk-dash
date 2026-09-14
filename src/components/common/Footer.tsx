@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { ANDROID_APP_URL, openAndroidApp } from '@/lib/app-links';
 
 export default function Footer() {
   return (
-    <footer className="bg-foreground text-background/80 py-3 border-t border-[#3C2D21]">
+    <footer className="relative z-[60] bg-foreground text-background/80 pt-3 pb-20 md:pb-3 border-t border-[#3C2D21]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-row items-center justify-between gap-4 text-xs overflow-x-auto whitespace-nowrap">
           {/* Logo & Slogan */}
@@ -37,10 +38,12 @@ export default function Footer() {
 
             {/* GET IT ON Google Play Badge */}
             <a
-              href="#"
+              href={ANDROID_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={(e) => {
                 e.preventDefault();
-                alert('DairyDash Android App coming soon to Google Play!');
+                openAndroidApp();
               }}
               className="inline-flex items-center gap-2 bg-black text-white border border-white/20 px-2.5 py-1 rounded-lg hover:border-white/40 transition-all active:scale-95 shrink-0"
               title="Get it on Google Play"

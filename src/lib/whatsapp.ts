@@ -1,7 +1,7 @@
 import { CartItem, CustomerDetails, DeliveryLocation } from '@/types/order';
 import { dryFruits } from '@/data/dry-fruits';
 
-export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919417385308';
+export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '917717625060';
 
 export const generateWhatsAppUrl = (
   items: CartItem[],

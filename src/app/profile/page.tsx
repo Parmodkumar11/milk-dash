@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cart-store';
 import { dryFruits } from '@/data/dry-fruits';
 import { User, Phone, MapPin, Home, ArrowLeft, Trash2, Edit2, Check, Navigation, ShieldCheck, History, Save, Clock, ShoppingBag } from 'lucide-react';
+import { ANDROID_APP_URL, openAndroidApp } from '@/lib/app-links';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -394,10 +395,12 @@ export default function ProfilePage() {
 
           {/* GET IT ON Google Play Badge */}
           <a
-            href="#"
+            href={ANDROID_APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => {
               e.preventDefault();
-              alert('DairyDash Android App coming soon to Google Play!');
+              openAndroidApp();
             }}
             className="inline-flex items-center gap-2 bg-black text-white border border-border-custom px-2.5 py-1 rounded-lg hover:bg-black/90 transition-all active:scale-95 shrink-0 shadow-xs"
             title="Get it on Google Play"
