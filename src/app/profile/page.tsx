@@ -402,7 +402,7 @@ export default function ProfilePage() {
               e.preventDefault();
               openAndroidApp();
             }}
-            className="inline-flex items-center gap-2 bg-black text-white border border-border-custom px-2.5 py-1 rounded-lg hover:bg-black/90 transition-all active:scale-95 shrink-0 shadow-xs"
+            className="inline-flex items-center gap-2 bg-foreground text-background border border-border-custom px-2.5 py-1 rounded-lg hover:opacity-90 transition-all active:scale-95 shrink-0 shadow-xs"
             title="Get it on Google Play"
           >
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
@@ -412,8 +412,8 @@ export default function ProfilePage() {
               <path fill="#FBBC05" d="M15.8 8.7L5.2 2.5c-.6-.3-1.1-.3-1.5.1l9.1 9.1 3-3z" />
             </svg>
             <div className="flex flex-col text-left leading-none">
-              <span className="text-[7px] text-gray-300 font-semibold tracking-wider uppercase">GET IT ON</span>
-              <span className="text-[11px] font-extrabold text-white tracking-tight">Google Play</span>
+              <span className="text-[7px] text-background/50 font-semibold tracking-wider uppercase">GET IT ON</span>
+              <span className="text-[11px] font-extrabold text-background tracking-tight">Google Play</span>
             </div>
           </a>
 

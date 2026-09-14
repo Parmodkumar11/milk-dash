@@ -6,13 +6,13 @@ import { ANDROID_APP_URL, openAndroidApp } from '@/lib/app-links';
 
 export default function Footer() {
   return (
-    <footer className="relative z-[60] bg-foreground text-background/80 pt-3 pb-20 md:pb-3 border-t border-[#3C2D21]">
+    <footer className="relative z-[60] bg-foreground text-background/80 pt-3 pb-20 md:pb-3 border-t border-background/15">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-row items-center justify-between gap-4 text-xs overflow-x-auto whitespace-nowrap">
           {/* Logo & Slogan */}
           <div className="flex items-center gap-2">
-            <span className="font-bold tracking-tight text-white flex items-center gap-1.5">
-              <span className="w-5 h-5 rounded bg-primary flex items-center justify-center text-white text-[10px] font-bold">
+            <span className="font-bold tracking-tight text-background flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded bg-primary flex items-center justify-center text-background text-[10px] font-bold">
                 🥛
               </span>
               DairyDash
@@ -28,7 +28,7 @@ export default function Footer() {
               href="https://www.instagram.com/dairy.dash.in?igsi=MXFqZGJrcjZ2cXhjbw=="
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-pink-400 transition-all shrink-0"
+              className="p-1.5 rounded-full bg-background/10 hover:bg-background/20 text-pink-400 transition-all shrink-0"
               title="Instagram"
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@ export default function Footer() {
                 e.preventDefault();
                 openAndroidApp();
               }}
-              className="inline-flex items-center gap-2 bg-black text-white border border-white/20 px-2.5 py-1 rounded-lg hover:border-white/40 transition-all active:scale-95 shrink-0"
+              className="inline-flex items-center gap-2 bg-background text-foreground border border-background/30 px-2.5 py-1 rounded-lg hover:border-background/60 transition-all active:scale-95 shrink-0"
               title="Get it on Google Play"
             >
               {/* Play Store Triangle Icon */}
@@ -56,15 +56,15 @@ export default function Footer() {
                 <path fill="#FBBC05" d="M15.8 8.7L5.2 2.5c-.6-.3-1.1-.3-1.5.1l9.1 9.1 3-3z"/>
               </svg>
               <div className="flex flex-col text-left leading-none">
-                <span className="text-[7px] text-gray-300 font-semibold tracking-wider uppercase">GET IT ON</span>
-                <span className="text-[11px] font-extrabold text-white tracking-tight">Google Play</span>
+                <span className="text-[7px] text-foreground/50 font-semibold tracking-wider uppercase">GET IT ON</span>
+                <span className="text-[11px] font-extrabold text-foreground tracking-tight">Google Play</span>
               </div>
             </a>
 
             {/* Privacy Policy Icon Link */}
             <a
               href="/privacy-policy"
-              className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-emerald-400 transition-all shrink-0"
+              className="p-1.5 rounded-full bg-background/10 hover:bg-background/20 text-emerald-400 transition-all shrink-0"
               title="Privacy Policy"
             >
               <ShieldCheck className="w-4 h-4" />
