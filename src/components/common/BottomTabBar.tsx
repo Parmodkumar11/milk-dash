@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cart-store';
-import { Flame, ShoppingCart, Home, MapPin, CheckSquare } from 'lucide-react';
+import { Flame, ShoppingCart, Home, MapPin, CheckSquare, Store, ClipboardList } from 'lucide-react';
+import { MILK_ENABLED } from '@/lib/features';
 
 export default function BottomTabBar() {
   const pathname = usePathname();
@@ -17,26 +18,40 @@ export default function BottomTabBar() {
 
   const totalItems = mounted ? items.reduce((sum, item) => sum + 1, 0) : 0;
 
-  const tabs = [
-    { name: 'Order', path: '/order', icon: Flame },
-    { name: 'Cart', path: '/cart', icon: ShoppingCart, badge: totalItems },
-    { name: 'Home', path: '/', icon: Home, isCenter: true },
-    { name: 'Delivery', path: '/delivery', icon: MapPin },
-    { name: 'Checkout', path: '/checkout', icon: CheckSquare },
-  ];
+  const tabs = MILK_ENABLED
+    ? [
+        { name: 'Order', path: '/order', icon: Flame },
+        { name: 'Cart', path: '/cart', icon: ShoppingCart, badge: totalItems },
+        { name: 'Home', path: '/', icon: Home, isCenter: true },
+        { name: 'Delivery', path: '/delivery', icon: MapPin },
+        { name: 'Checkout', path: '/checkout', icon: CheckSquare },
+      ]
+    : [
+        { name: 'Nearby', path: '/nearby', icon: Store },
+        { name: 'Request', path: '/nearby/request', icon: ClipboardList },
+        { name: 'Home', path: '/', icon: Home, isCenter: true },
+        { name: 'Location', path: '/nearby/location', icon: MapPin },
+        { name: 'Review', path: '/nearby/review', icon: CheckSquare },
+      ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FCFAF6]/95 dark:bg-[#1A1A1F]/95 backdrop-blur-lg border-t border-border-custom z-50 px-2 py-1.5 shadow-2xl flex items-center justify-around pb-safe-bottom">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface/95 backdrop-blur-xl border-t border-border-custom z-50 px-2 py-1.5 shadow-[0_-8px_30px_rgba(28,25,23,0.08)] flex items-center justify-around pb-safe-bottom">
       {tabs.map((tab) => {
         const Icon = tab.icon;
-        const active = pathname === tab.path;
+        const active =
+          tab.path === '/'
+            ? pathname === '/'
+            : tab.path === '/nearby'
+              ? pathname === '/nearby'
+              : pathname === tab.path || pathname.startsWith(`${tab.path}/`);
 
         if (tab.isCenter) {
           return (
             <Link
               key={tab.path}
               href={tab.path}
-              className="relative -top-4 flex items-center justify-center w-14 h-14 rounded-full bg-foreground text-background shadow-lg border-4 border-[#FCFAF6] dark:border-[#1A1A1F] hover:scale-105 active:scale-95 transition-transform"
+              className="relative -top-4 flex items-center justify-center w-14 h-14 rounded-full bg-foreground text-background shadow-lg border-4 border-surface hover:scale-105 active:scale-95 transition-transform"
+              aria-label="Home"
             >
               <Icon className="w-6 h-6 fill-current" />
             </Link>
@@ -47,12 +62,12 @@ export default function BottomTabBar() {
           <Link
             key={tab.path}
             href={tab.path}
-            className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all relative ${
-              active ? 'text-primary font-extrabold' : 'text-foreground/60'
+            className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all relative min-w-[3.5rem] ${
+              active ? 'text-primary font-extrabold' : 'text-muted-fg'
             }`}
           >
             <div className="relative">
-              <Icon className="w-5.5 h-5.5 mb-0.5" />
+              <Icon className="w-5 h-5 mb-0.5" />
               {tab.badge && tab.badge > 0 ? (
                 <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                   {tab.badge}

@@ -71,3 +71,77 @@ ${paymentMethod === 'cod' ? `• COD Charge: ₹${codFee}\n` : ''}*TOTAL AMOUNT:
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 };
+
+export const generateNearbyWhatsAppUrl = (
+  requestId: string,
+  items: { name: string; quantity: string; notes: string; estimatedCost: string }[],
+  customer: { name: string; phone: string },
+  location: {
+    latitude: number | null;
+    longitude: number | null;
+    address: string;
+    houseFlat: string;
+    landmark: string;
+  },
+  preferredShop: string,
+  instructions: string,
+  estimatedItemsTotal: number,
+  procurementFee: number,
+  deliveryFee: number,
+  estimatedTotal: number
+): string => {
+  const itemText = items
+    .map((item, index) => {
+      const cost = item.estimatedCost.trim() ? `₹${item.estimatedCost}` : 'TBD at shop';
+      const notes = item.notes.trim() ? `\n• _Notes:_ ${item.notes}` : '';
+      return `*${index + 1}. ${item.name}*
+• _Qty:_ *${item.quantity || '1'}*
+• _Est. cost:_ *${cost}*${notes}`;
+    })
+    .join('\n\n');
+
+  const latVal = location.latitude !== null ? location.latitude.toFixed(6) : 'XX.XXXX';
+  const lngVal = location.longitude !== null ? location.longitude.toFixed(6) : 'XX.XXXX';
+  const mapLink =
+    location.latitude !== null && location.longitude !== null
+      ? `https://www.google.com/maps?q=${location.latitude},${location.longitude}`
+      : 'https://www.google.com/maps';
+
+  const message = `🛍️ *HOPINMOHALI NEARBY REQUEST*
+
+🆔 *Request ID:* ${requestId}
+
+👤 *Customer Details*
+• *Name:* ${customer.name}
+• *Phone:* ${customer.phone}
+
+📦 *Items to buy*
+${itemText}
+
+🏪 *Preferred shop:* ${preferredShop || 'Any nearby shop in Phase 7, Mohali'}
+
+🏡 *Delivery Address*
+• *Flat/House:* ${location.houseFlat}
+• *Address:* ${location.address}
+${location.landmark ? `• *Landmark:* ${location.landmark}` : ''}
+
+📍 *GPS Coordinates*
+• *Latitude:* ${latVal}
+• *Longitude:* ${lngVal}
+• *Map Link:* ${mapLink}
+
+💬 *Instructions:*
+_${instructions || 'None'}_
+
+⚠️ Final item prices may vary based on shop availability.
+
+💰 *Estimate*
+• Items (est.): ₹${estimatedItemsTotal || 0}
+• Procurement: ₹${procurementFee}
+• Delivery: ₹${deliveryFee}
+*EST. TOTAL:* *₹${estimatedTotal}*
+_(Item cost billed at actual shop price)_`;
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+};
+

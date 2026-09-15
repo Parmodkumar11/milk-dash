@@ -3,127 +3,151 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, ShieldCheck } from 'lucide-react';
+import PageBanner from '@/components/common/PageBanner';
+import { IMAGES } from '@/lib/images';
+import { APP_NAME, APP_CITY } from '@/lib/brand';
+import { NEARBY_AREA_NAME, NEARBY_RADIUS_KM } from '@/lib/nearby';
 
 export default function PrivacyPolicyPage() {
   const router = useRouter();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12 pb-28 sm:pb-12 w-full flex-1">
-      {/* Header */}
-      <div className="mb-6 pb-3 border-b border-border-custom flex justify-between items-center gap-3">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-primary" />
-            <span>Privacy Policy</span>
-          </h1>
-          <p className="text-xs text-foreground/60">Effective Date: August 29, 2026</p>
-        </div>
+    <div className="dd-page pb-28 sm:pb-12 w-full flex-1">
+      <div className="mb-6 space-y-3">
         <button
           type="button"
           onClick={() => router.back()}
-          className="p-2 rounded-full border border-border-custom bg-white text-foreground/70 hover:text-foreground hover:bg-[#FCFAF6] transition-all shadow-xs shrink-0"
+          className="p-2.5 rounded-full border border-border-custom bg-card-bg text-muted-fg hover:text-foreground hover:bg-muted transition-all"
           title="Back"
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
+        <PageBanner
+          compact
+          kicker="Trust & transparency"
+          title="Privacy Policy"
+          subtitle="Effective Date: 16 September 2026 · HopInMohali"
+          imageSrc={IMAGES.privacy}
+          imageAlt="Privacy and trust"
+          tone="slate"
+        />
       </div>
 
-      {/* Main Content Card */}
-      <div className="bg-white border border-border-custom p-6 sm:p-8 rounded-2xl shadow-xs space-y-6 text-sm text-foreground/80 leading-relaxed">
+      <div className="dd-card p-6 sm:p-8 space-y-6 text-sm text-foreground/80 leading-relaxed">
         <p className="font-medium text-foreground">
-          We care about our customers and respect your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our website or place an order with us.
+          {APP_NAME} (“we”, “us”) helps you get items from nearby shops in {NEARBY_AREA_NAME} and around {APP_CITY}, and may later offer fresh milk delivery. This Privacy Policy explains what information we collect, why we collect it, and how we protect it when you use our website or send a request.
         </p>
-        <p className="text-xs bg-[#FCFAF6] p-3.5 rounded-xl border border-border-custom text-foreground/70 italic">
-          We believe in being genuine and transparent with our customers. We only collect information that is needed to provide our products and services to you.
+        <p className="text-sm dd-surface p-3.5 text-muted-fg italic">
+          We only collect what we need to shop for you, deliver to you, and confirm your request. We do not sell your personal information.
         </p>
 
         <div className="space-y-4 pt-2">
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">1. Information We Collect</h2>
-            <p className="text-xs text-foreground/70 mb-2">When you use our website or place an order, we may collect:</p>
-            <ul className="list-disc list-inside text-xs space-y-1 text-foreground/75 pl-2">
-              <li>Your name</li>
-              <li>Phone number</li>
-              <li>Delivery address</li>
-              <li>House or apartment number</li>
-              <li>Order details</li>
-              <li>Any information you choose to provide while contacting us</li>
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">1. Who this policy covers</h2>
+            <p className="text-sm text-foreground/75">
+              This policy applies to people who use the {APP_NAME} website, place a nearby-shop request, save a profile, or contact us on WhatsApp or phone. Fresh milk ordering is currently listed as coming soon. If milk ordering is enabled later, the same types of information will be used to complete those orders.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">2. Information we collect</h2>
+            <p className="text-sm text-muted-fg mb-2">Depending on how you use {APP_NAME}, we may collect:</p>
+            <ul className="list-disc list-inside text-sm space-y-1 text-foreground/75 pl-2">
+              <li>Name and 10-digit WhatsApp / mobile number</li>
+              <li>Delivery address, room / house / flat number, landmark, and delivery instructions</li>
+              <li>Map pin and GPS coordinates if you allow location access or drop a pin on the map</li>
+              <li>Item list, quantities, notes, preferred shop, and any cost estimates you enter</li>
+              <li>Profile details and request / order history stored on your device</li>
+              <li>Theme preference and splash-screen status stored on your device</li>
+              <li>Any extra details you send us while chatting on WhatsApp or phone</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">2. How We Use Your Information</h2>
-            <p className="text-xs text-foreground/70 mb-2">We use your information only when needed to:</p>
-            <ul className="list-disc list-inside text-xs space-y-1 text-foreground/75 pl-2">
-              <li>Process and confirm your order</li>
-              <li>Deliver your order to the correct address</li>
-              <li>Contact you about your order</li>
-              <li>Respond to your questions or requests</li>
-              <li>Improve our products and customer service</li>
-              <li>Maintain records related to your orders</li>
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">3. Location information</h2>
+            <p className="text-sm text-foreground/75">
+              Nearby delivery is limited to about {NEARBY_RADIUS_KM} km around {NEARBY_AREA_NAME}. We use the pin you place (and, if you tap locate, your browser’s location) so a shopper can reach the right room or building. Location is used only for delivery and request confirmation. You can refuse browser location and still type an address and drop a pin yourself.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">4. How we use your information</h2>
+            <p className="text-sm text-muted-fg mb-2">We use your information to:</p>
+            <ul className="list-disc list-inside text-sm space-y-1 text-foreground/75 pl-2">
+              <li>Create and confirm nearby-shop requests (and milk orders, when that service is live)</li>
+              <li>Buy items from a nearby shop and deliver them to your pin</li>
+              <li>Contact you about availability, substitutes, timing, or charges</li>
+              <li>Share only what a shopper or delivery person needs to complete the run</li>
+              <li>Keep a record of requests you send through WhatsApp</li>
+              <li>Improve how the website works</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">3. We Do Not Sell Your Information</h2>
-            <p className="text-xs text-foreground/75">
-              We value your trust. We do not sell, rent, or trade your personal information to third parties for their own marketing purposes. We only share information when it is necessary to provide our services, such as sharing delivery details with a person responsible for delivering your order.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">5. WhatsApp, phone, and device storage</h2>
+            <p className="text-sm text-foreground/75 mb-2">
+              When you confirm a request, your browser may open WhatsApp with a pre-filled message that includes your name, phone, address, map link, item list, and fee estimate. That message is sent by you to our WhatsApp number so we can process the request.
+            </p>
+            <p className="text-sm text-foreground/75">
+              Request drafts, profile details, cart data (for milk, when enabled), and display theme may be saved in your browser (local storage). This stays on your device unless you clear site data. We do not run a separate customer database on this website for those drafts.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">4. Payment Information</h2>
-            <p className="text-xs text-foreground/75">
-              If online payment is available on our website, your payment may be processed through a third-party payment service provider. We do not intentionally store your complete card, UPI, or banking information on our website. Payment information is handled according to the payment provider's security and privacy practices.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">6. We do not sell your information</h2>
+            <p className="text-sm text-foreground/75">
+              We do not sell, rent, or trade your personal information for others’ marketing. We share details only when needed to serve you — for example with a shopper, delivery partner, or WhatsApp / map services you use to send or view the request.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">5. WhatsApp and Phone Communication</h2>
-            <p className="text-xs text-foreground/75">
-              If you contact us through WhatsApp or phone, we may use the information you provide to respond to your questions, confirm orders, and provide delivery-related updates.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">7. Payments</h2>
+            <p className="text-sm text-foreground/75">
+              Nearby items are billed at the shop’s actual price, plus stated procurement and delivery charges. If you pay online later, a third-party payment provider may process UPI or card details. We do not intend to store your full card, UPI PIN, or bank password on this website.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">6. Cookies and Website Information</h2>
-            <p className="text-xs text-foreground/75">
-              Our website may use basic cookies or similar technologies to make the website work properly, improve your experience, and understand how customers use our website. We do not use your information for unnecessary purposes.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">8. Cookies and similar technologies</h2>
+            <p className="text-sm text-foreground/75">
+              We may use basic cookies or local storage so the site remembers your theme, your draft request, and that you have seen the splash screen. We do not use this for unnecessary advertising.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">7. Protecting Your Information</h2>
-            <p className="text-xs text-foreground/75">
-              We take reasonable steps to protect the information you provide to us from unauthorized access, misuse, or disclosure. However, no website or online service can guarantee complete security.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">9. How we protect information</h2>
+            <p className="text-sm text-foreground/75">
+              We take reasonable steps to keep request details and communications from being misused. No website, WhatsApp chat, or map link is completely risk-free. Please do not send passwords or extra sensitive data in item notes unless it is needed for delivery.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">8. Children's Privacy</h2>
-            <p className="text-xs text-foreground/75">
-              Our website is not intended to knowingly collect personal information from children without appropriate parental or guardian involvement. If you believe that a child has provided us with personal information, please contact us so we can take appropriate action.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">10. Children</h2>
+            <p className="text-sm text-foreground/75">
+              {APP_NAME} is not meant to collect personal information from children without a parent or guardian. If you think a child has sent us details, contact us and we will take appropriate action.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">9. Changes to This Privacy Policy</h2>
-            <p className="text-xs text-foreground/75">
-              We may update this Privacy Policy from time to time if our services or practices change. Any updated Privacy Policy will be posted on this page with a new effective date.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">11. Changes</h2>
+            <p className="text-sm text-foreground/75">
+              We may update this Privacy Policy when our services change (including when fresh milk ordering goes live). The new version will be posted on this page with an updated effective date.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-extrabold text-foreground mb-2">10. Contact Us</h2>
-            <p className="text-xs text-foreground/75">
-              If you have any questions about this Privacy Policy or how we handle your information, please contact us through the contact details provided on our website.
+            <h2 className="font-display text-lg font-semibold text-foreground mb-2">12. Contact us</h2>
+            <p className="text-sm text-foreground/75">
+              For questions about this policy or your information, message {APP_NAME} on WhatsApp using the same number you use to send nearby requests, or use the contact options on this website.
             </p>
           </section>
 
-          <div className="mt-6 p-4 rounded-xl bg-primary/10 border border-primary/20 text-xs text-foreground">
-            <h3 className="font-extrabold text-primary mb-1">Our Promise</h3>
+          <div className="mt-6 p-4 rounded-xl bg-primary/10 border border-primary/20 text-sm text-foreground">
+            <h3 className="font-extrabold text-primary mb-1 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4" /> Our promise
+            </h3>
             <p className="text-foreground/80 leading-relaxed">
-              We care about our customers, and we believe trust is built through honesty and transparency. We will always try to handle your information responsibly and use it only for genuine business and customer-service purposes.
+              Trust matters. {APP_NAME} will handle your name, phone, pin, and shopping list only to hop to a nearby shop and bring items to you — honestly and only for genuine service.
             </p>
           </div>
         </div>

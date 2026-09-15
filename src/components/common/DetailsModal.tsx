@@ -43,7 +43,7 @@ export default function DetailsModal() {
         setLocating(false);
         setGpsSuccess(true);
       },
-      (error) => {
+      () => {
         setLocating(false);
         setGpsError('GPS access denied.');
       },
@@ -70,7 +70,7 @@ export default function DetailsModal() {
 
     updateCustomer({ name, phone });
     updateDeliveryLocation({ houseFlat });
-    
+
     if (deliveryLocation.latitude && !deliveryLocation.address) {
       updateDeliveryLocation({ address: 'Exact GPS Location Captured' });
     }
@@ -81,33 +81,30 @@ export default function DetailsModal() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-sm overflow-hidden animate-slide-up sm:animate-none">
-        
-        {/* Compact Header */}
-        <div className="p-4 pb-2 flex justify-between items-center border-b border-border-custom">
+    <div className="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-card-bg rounded-t-[1.6rem] sm:rounded-[1.6rem] w-full max-w-md overflow-hidden animate-slide-up sm:animate-none border border-border-custom shadow-[var(--shadow-soft)]">
+        <div className="p-5 pb-3 flex justify-between items-center border-b border-border-custom">
           <div>
-            <h3 className="text-base font-extrabold text-foreground tracking-tight flex items-center gap-1.5">
-              <span className="text-primary">🥛</span> Setup Delivery
+            <h3 className="font-display text-lg font-semibold text-foreground tracking-tight flex items-center gap-1.5">
+              <span>🥛</span> Setup Delivery
             </h3>
-            <p className="text-[10px] text-foreground/50">Enter details to unlock fresh milk delivery</p>
+            <p className="text-xs text-muted-fg mt-0.5">Enter details to unlock fresh milk delivery</p>
           </div>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="text-foreground/40 hover:text-foreground p-1 rounded-full hover:bg-foreground/5"
+            className="text-muted-fg hover:text-foreground p-2 rounded-full hover:bg-muted"
+            aria-label="Close"
           >
-            <X className="w-4.5 h-4.5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleSave} className="p-4 space-y-3.5">
-          {/* Location button */}
-          <div className="bg-[#F8F8FA] border border-border-custom p-3 rounded-xl flex items-center justify-between gap-3">
+        <form onSubmit={handleSave} className="p-5 space-y-4">
+          <div className="dd-surface p-3.5 flex items-center justify-between gap-3">
             <div className="text-left">
-              <span className="text-[10px] font-bold text-foreground/50 uppercase block">Delivery Point</span>
-              <span className="text-xs font-extrabold text-foreground">
+              <span className="dd-label mb-0">Delivery Point</span>
+              <span className="text-sm font-bold text-foreground">
                 {gpsSuccess ? '📍 GPS Captured' : 'Not detected'}
               </span>
             </div>
@@ -115,7 +112,7 @@ export default function DetailsModal() {
               type="button"
               onClick={detectLocation}
               disabled={locating}
-              className={`px-3 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1 transition-all ${
+              className={`px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1 transition-all disabled:opacity-60 ${
                 gpsSuccess
                   ? 'bg-emerald-600 text-white'
                   : 'bg-primary text-white hover:bg-primary-hover shadow-sm active:scale-95'
@@ -135,14 +132,13 @@ export default function DetailsModal() {
             </button>
           </div>
           {gpsError && (
-            <span className="text-[10px] font-semibold text-rose-500 block text-center -mt-2">{gpsError}</span>
+            <span className="text-xs font-semibold text-rose-500 block text-center">{gpsError}</span>
           )}
 
-          {/* Name Input */}
           <div>
-            <label className="block text-[10px] font-bold text-foreground/60 mb-1 uppercase">Your Name</label>
+            <label className="dd-label">Your Name</label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
               <input
                 type="text"
                 value={name}
@@ -150,19 +146,17 @@ export default function DetailsModal() {
                   setName(e.target.value);
                   if (errors.name) setErrors({ ...errors, name: '' });
                 }}
-                className={`w-full bg-white border ${
-                  errors.name ? 'border-rose-500' : 'border-border-custom focus:border-primary'
-                } pl-9 pr-3 py-2 rounded-lg text-xs font-semibold focus:outline-none`}
+                className={`dd-input ${errors.name ? 'dd-input-error' : ''}`}
                 placeholder="Enter your name"
               />
             </div>
+            {errors.name && <span className="text-rose-500 text-xs mt-1 block">{errors.name}</span>}
           </div>
 
-          {/* Phone Input */}
           <div>
-            <label className="block text-[10px] font-bold text-foreground/60 mb-1 uppercase">WhatsApp Number</label>
+            <label className="dd-label">WhatsApp Number</label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35" />
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
               <input
                 type="tel"
                 maxLength={10}
@@ -171,19 +165,17 @@ export default function DetailsModal() {
                   setPhone(e.target.value);
                   if (errors.phone) setErrors({ ...errors, phone: '' });
                 }}
-                className={`w-full bg-white border ${
-                  errors.phone ? 'border-rose-500' : 'border-border-custom focus:border-primary'
-                } pl-9 pr-3 py-2 rounded-lg text-xs font-semibold focus:outline-none`}
+                className={`dd-input ${errors.phone ? 'dd-input-error' : ''}`}
                 placeholder="10-digit mobile number"
               />
             </div>
+            {errors.phone && <span className="text-rose-500 text-xs mt-1 block">{errors.phone}</span>}
           </div>
 
-          {/* House Flat Input */}
           <div>
-            <label className="block text-[10px] font-bold text-foreground/60 mb-1 uppercase">House / Flat No.</label>
+            <label className="dd-label">House / Flat No.</label>
             <div className="relative">
-              <Home className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35" />
+              <Home className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
               <input
                 type="text"
                 value={houseFlat}
@@ -191,19 +183,14 @@ export default function DetailsModal() {
                   setHouseFlat(e.target.value);
                   if (errors.houseFlat) setErrors({ ...errors, houseFlat: '' });
                 }}
-                className={`w-full bg-white border ${
-                  errors.houseFlat ? 'border-rose-500' : 'border-border-custom focus:border-primary'
-                } pl-9 pr-3 py-2 rounded-lg text-xs font-semibold focus:outline-none`}
+                className={`dd-input ${errors.houseFlat ? 'dd-input-error' : ''}`}
                 placeholder="e.g. Flat 104, Block B"
               />
             </div>
+            {errors.houseFlat && <span className="text-rose-500 text-xs mt-1 block">{errors.houseFlat}</span>}
           </div>
 
-          {/* Save Button */}
-          <button
-            type="submit"
-            className="w-full py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-extrabold text-xs shadow-sm transition-all active:scale-[0.98] mt-3"
-          >
+          <button type="submit" className="dd-btn-primary w-full mt-1">
             Start Delivery
           </button>
         </form>

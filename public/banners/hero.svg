@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 780" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="hbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#120E0C"/>
+      <stop offset="42%" stop-color="#2A1C14"/>
+      <stop offset="100%" stop-color="#C4A27A"/>
+    </linearGradient>
+    <radialGradient id="hglow" cx="72%" cy="38%" r="42%">
+      <stop offset="0%" stop-color="#FFF3D6" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFF3D6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="milk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFDF8"/>
+      <stop offset="100%" stop-color="#F0E2C4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="780" fill="url(#hbg)"/>
+  <rect width="720" height="780" fill="#100C0A" opacity="0.55"/>
+  <circle cx="1180" cy="240" r="280" fill="url(#hglow)"/>
+  <path d="M1120 0 C1135 90 1110 170 1095 250 C1084 310 1072 340 1088 360" fill="none" stroke="#FFF8EA" stroke-width="22" stroke-linecap="round" opacity="0.9"/>
+  <path d="M990 300 L1220 300 L1188 640 Q1180 690 1128 690 L1082 690 Q1030 690 1022 640 Z" fill="#F7EEDC"/>
+  <path d="M1010 390 C1120 360 1188 372 1204 400 L1176 636 Q1170 672 1128 672 L1074 672 Q1034 672 1028 636 Z" fill="url(#milk)"/>
+  <ellipse cx="1105" cy="300" rx="115" ry="16" fill="#E8D7B8"/>
+  <path d="M1040 330 L1054 640" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.45"/>
+  <ellipse cx="1105" cy="710" rx="170" ry="18" fill="#000" opacity="0.28"/>
+</svg>

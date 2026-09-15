@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    "Read DairyDash's Privacy Policy — how we collect, use, and protect your personal information when you order fresh milk with us.",
+    'HopInMohali Privacy Policy — how we collect and protect your name, WhatsApp number, delivery pin, and nearby-shop request details in Phase 7, Mohali.',
   openGraph: {
-    title: 'Privacy Policy | DairyDash',
+    title: 'Privacy Policy | HopInMohali',
     description:
-      "DairyDash's Privacy Policy — how we handle your name, phone number, and delivery details responsibly and transparently.",
+      'How HopInMohali handles your contact details, map pin, and shopping list for nearby delivery.',
   },
 };
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/common/Navbar';
 import Footer from '@/components/common/Footer';
@@ -13,56 +13,59 @@ const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
 });
 
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-fraunces',
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://milk-app-ten.vercel.app'),
   title: {
-    default: 'DairyDash — Fresh Milk Delivered to Your Door',
-    template: '%s | DairyDash',
+    default: 'HopInMohali — Get anything from a nearby shop',
+    template: '%s | HopInMohali',
   },
   description:
-    'Order fresh hot or cold milk with premium dry fruit add-ons, delivered straight to your doorstep. 100% pure, vegetarian & homemade quality. Customise your milk your way.',
+    'HopInMohali fetches lunch, groceries, medicines and more from nearby shops in Phase 7, Mohali — delivered within about 5 km. Fresh milk coming soon.',
   keywords: [
-    'fresh milk delivery',
-    'hot milk delivery',
-    'cold milk delivery',
-    'milk with dry fruits',
-    'DairyDash',
-    'dairy delivery',
-    'homemade milk',
-    'milk order online',
-    'pure milk',
-    'vegetarian dairy',
+    'HopInMohali',
+    'HopIn',
+    'Mohali delivery',
+    'Phase 7 Mohali',
+    'nearby shop delivery',
+    'lunch delivery Mohali',
+    'grocery fetch',
   ],
-  authors: [{ name: 'DairyDash' }],
-  creator: 'DairyDash',
+  authors: [{ name: 'HopInMohali' }],
+  creator: 'HopInMohali',
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/milk-icon.jpg',
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.svg',
   },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
     url: 'https://milk-app-ten.vercel.app',
-    siteName: 'DairyDash',
-    title: 'DairyDash — Fresh Milk Delivered to Your Door',
+    siteName: 'HopInMohali',
+    title: 'HopInMohali — Get anything from a nearby shop',
     description:
-      'Order fresh hot or cold milk with premium dry fruit add-ons. 100% pure, vegetarian & homemade quality. Customise your milk your way.',
+      'Lunch, groceries, medicines from nearby shops in Phase 7, Mohali. Delivered within about 5 km.',
     images: [
       {
-        url: '/milk-icon.jpg',
-        width: 1024,
-        height: 1024,
-        alt: 'DairyDash — Fresh Milk Delivery',
+        url: '/logo.svg',
+        width: 512,
+        height: 512,
+        alt: 'HopInMohali',
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'DairyDash — Fresh Milk Delivered to Your Door',
+    title: 'HopInMohali — Get anything from a nearby shop',
     description:
-      'Order fresh hot or cold milk with premium dry fruit add-ons, delivered to your doorstep. Pure. Vegetarian. Homemade.',
-    images: ['/milk-icon.jpg'],
+      'Lunch, groceries, medicines from nearby shops in Phase 7, Mohali. Delivered within about 5 km.',
+    images: ['/logo.svg'],
   },
   robots: {
     index: true,
@@ -82,13 +85,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} antialiased`}
+      className={`${jakarta.variable} ${fraunces.variable} antialiased`}
     >
       <body className="bg-background text-foreground min-h-screen flex flex-col font-sans">
         <ThemeProvider>
           <SplashScreen />
           <Navbar />
-          <main className="w-full flex-1 pb-36 md:pb-16">
+          <main className="w-full flex-1 pb-32 md:pb-8">
             {children}
           </main>
           <BottomTabBar />

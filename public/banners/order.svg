@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 780" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#161210"/>
+      <stop offset="50%" stop-color="#3A2A20"/>
+      <stop offset="100%" stop-color="#D9B48A"/>
+    </linearGradient>
+    <linearGradient id="hotm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF8EA"/>
+      <stop offset="100%" stop-color="#F0D7A8"/>
+    </linearGradient>
+    <linearGradient id="coldm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7FBFF"/>
+      <stop offset="100%" stop-color="#D5E8F8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="780" fill="url(#bg)"/>
+  <rect width="680" height="780" fill="#100C0A" opacity="0.5"/>
+  <path d="M960 280 L1140 280 L1116 600 Q1110 640 1068 640 L1032 640 Q990 640 984 600 Z" fill="#F3E6C8"/>
+  <path d="M978 360 C1060 340 1110 350 1124 372 L1104 596 Q1100 626 1068 626 L1034 626 Q1002 626 998 596 Z" fill="url(#hotm)"/>
+  <path d="M1180 310 L1348 310 L1328 610 Q1322 650 1282 650 L1246 650 Q1206 650 1200 610 Z" fill="#EEF5FC"/>
+  <path d="M1196 390 C1268 372 1314 380 1328 400 L1314 606 Q1310 636 1282 636 L1248 636 Q1220 636 1216 606 Z" fill="url(#coldm)"/>
+  <ellipse cx="1140" cy="690" rx="220" ry="20" fill="#000" opacity="0.25"/>
+</svg>

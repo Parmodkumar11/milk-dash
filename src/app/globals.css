@@ -1,40 +1,42 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
-/* Enable class-based dark mode for Tailwind v4 */
 @variant dark (&:where(.dark, .dark *));
 
-
-/* ─── Light Mode (default) ─── */
 :root {
-  --background: #F8F8FA;
-  --foreground: #141416;
+  --background: #F6F3EC;
+  --foreground: #1C1917;
   --card-bg: #FFFFFF;
-  --surface: #FCFAF6;
+  --surface: #FBF8F1;
   --primary: #E23744;
-  --primary-hover: #CB202D;
+  --primary-hover: #C81E2B;
   --secondary: #2563EB;
-  --hot-accent: #E23744;
-  --cold-accent: #2563EB;
-  --border-color: #EFEFEF;
-  --muted: #F3F4F6;
-  --muted-fg: #6B7280;
+  --hot-accent: #E24B32;
+  --cold-accent: #2B6CB0;
+  --border-color: #E7E0D4;
+  --muted: #F1EDE3;
+  --muted-fg: #6F675E;
+  --gold: #B08948;
+  --shadow-card: 0 1px 2px rgba(28, 25, 23, 0.04), 0 14px 40px rgba(28, 25, 23, 0.06);
+  --shadow-soft: 0 8px 30px rgba(28, 25, 23, 0.08);
 }
 
-/* ─── Dark Mode ─── */
 .dark {
-  --background: #0F0F11;
-  --foreground: #F0EEE9;
-  --card-bg: #1A1A1F;
-  --surface: #1E1C1A;
-  --primary: #E23744;
-  --primary-hover: #f04452;
-  --secondary: #3B82F6;
-  --hot-accent: #E23744;
-  --cold-accent: #3B82F6;
-  --border-color: #2A2A30;
-  --muted: #1E1E24;
-  --muted-fg: #9CA3AF;
+  --background: #121110;
+  --foreground: #F4F0EA;
+  --card-bg: #1C1B1A;
+  --surface: #181716;
+  --primary: #F04552;
+  --primary-hover: #FF6B75;
+  --secondary: #60A5FA;
+  --hot-accent: #F04552;
+  --cold-accent: #60A5FA;
+  --border-color: #2C2A28;
+  --muted: #22201E;
+  --muted-fg: #A8A29A;
+  --gold: #D4B483;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.24), 0 16px 40px rgba(0, 0, 0, 0.28);
+  --shadow-soft: 0 12px 36px rgba(0, 0, 0, 0.35);
 }
 
 @theme inline {
@@ -48,7 +50,11 @@
   --color-hot: var(--hot-accent);
   --color-cold: var(--cold-accent);
   --color-border-custom: var(--border-color);
+  --color-muted: var(--muted);
+  --color-muted-fg: var(--muted-fg);
+  --color-gold: var(--gold);
   --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 }
 
 body {
@@ -56,55 +62,27 @@ body {
   color: var(--foreground);
   font-family: var(--font-jakarta), sans-serif;
   overflow-x: hidden;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.018em;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ─── Dark mode overrides for hardcoded colors used in JSX ─── */
-
-/* White cards → dark card surface */
-.dark .bg-white { background-color: var(--card-bg) !important; }
-
-/* Warm cream surface (#FCFAF6) → dark surface */
-.dark .bg-\[\#FCFAF6\] { background-color: var(--surface) !important; }
-.dark .bg-\[\#F8F8FA\] { background-color: var(--muted) !important; }
-
-/* Borders */
-.dark .border-\[\#EFEFEF\] { border-color: var(--border-color) !important; }
-
-/* Text colors */
-.dark .text-\[\#2C1D11\] { color: #F0EEE9 !important; }
-
-/* Navbar bg */
-.dark .bg-\[\#FCFAF6\]\/90 { background-color: rgba(26, 26, 31, 0.92) !important; }
-
-/* Hero section gradients */
-.dark .from-\[\#FFFDF9\] { --tw-gradient-from: #0F0F11 !important; }
-.dark .via-\[\#FCFAF6\] { --tw-gradient-via: #141418 !important; }
-.dark .to-\[\#F8F8FA\] { --tw-gradient-to: #0F0F11 !important; }
-
-/* Smooth color transitions on interactive elements */
-.dark button,
-.dark a,
-.dark input,
-.dark textarea,
-.dark select {
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+h1, h2, h3, .font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  letter-spacing: -0.03em;
 }
 
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-thumb { background: #3A3A44; }
-.dark ::-webkit-scrollbar-track { background: var(--background); }
+::selection {
+  background: color-mix(in srgb, var(--primary) 22%, transparent);
+}
 
-/* Smooth micro animation */
 main {
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(3px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -112,22 +90,189 @@ main {
   }
 }
 
-/* Leaflet map styles */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dd-page {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: 1.5rem 1rem 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .dd-page {
+    padding: 2.25rem 1.5rem 3rem;
+  }
+}
+
+.dd-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+.dd-surface {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+}
+
+.dd-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.85rem 1.35rem;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--primary) 28%, transparent);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.dd-btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.dd-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.dd-btn-primary:focus-visible,
+.dd-btn-dark:focus-visible,
+.dd-btn-ghost:focus-visible,
+.dd-input:focus-visible,
+textarea.dd-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.dd-btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-weight: 700;
+  padding: 0.85rem 1.35rem;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.dd-btn-dark:hover {
+  opacity: 0.92;
+}
+
+.dd-btn-dark:active {
+  transform: scale(0.98);
+}
+
+.dd-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--foreground);
+  font-weight: 600;
+  padding: 0.85rem 1.2rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dd-btn-ghost:hover {
+  background: var(--muted);
+  border-color: color-mix(in srgb, var(--foreground) 16%, var(--border-color));
+}
+
+.dd-input {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.9rem;
+  padding: 0.75rem 1rem 0.75rem 2.6rem;
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dd-input::placeholder {
+  color: color-mix(in srgb, var(--foreground) 38%, transparent);
+}
+
+.dd-input-error {
+  border-color: #e11d48;
+}
+
+.dd-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-fg);
+}
+
+.dd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.dd-banner-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+}
+
 .leaflet-container {
   width: 100%;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 18px;
   z-index: 1;
 }
 
-/* Scrollbars */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--background);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #E0E0E0;
-  border-radius: 2px;
+  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+  border-radius: 999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #3A3A44;
+}
+
+.pb-safe-bottom {
+  padding-bottom: max(0.4rem, env(safe-area-inset-bottom));
 }
