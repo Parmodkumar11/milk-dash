@@ -1,23 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/common/Navbar';
 import Footer from '@/components/common/Footer';
 import BottomTabBar from '@/components/common/BottomTabBar';
 import SplashScreen from '@/components/common/SplashScreen';
 import ThemeProvider from '@/components/common/ThemeProvider';
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-jakarta',
-});
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-fraunces',
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -91,7 +78,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${fraunces.variable} antialiased`}
+      className="antialiased"
     >
       <body className="bg-background text-foreground min-h-screen flex flex-col font-sans">
         <ThemeProvider>

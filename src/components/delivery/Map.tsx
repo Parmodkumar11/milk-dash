@@ -121,31 +121,56 @@ export default function MapComponent({
   // Request browser geolocation
   const detectLocation = () => {
     if (readOnly || !onLocationSelect) return;
+    if (typeof window !== 'undefined' && !window.isSecureContext) {
+      setGpsError('Location works only on HTTPS. Open the live site, then tap Detect again.');
+      return;
+    }
     if (!navigator.geolocation) {
-      setGpsError('Geolocation is not supported by your browser.');
+      setGpsError('This browser cannot read GPS. Try Safari or Chrome.');
       return;
     }
 
     setLocating(true);
     setGpsError(null);
 
+    const onSuccess = (position: GeolocationPosition) => {
+      onLocationSelect(position.coords.latitude, position.coords.longitude);
+      setLocating(false);
+      setGpsError(null);
+    };
+
+    const tryAccurate = () => {
+      navigator.geolocation.getCurrentPosition(
+        onSuccess,
+        (error) => {
+          setLocating(false);
+          if (error.code === error.PERMISSION_DENIED) {
+            setGpsError(
+              'GPS is blocked. iPhone: Settings → Safari → Location → Allow, then return and tap Detect again. Also turn on Location Services.'
+            );
+          } else if (error.code === error.TIMEOUT) {
+            setGpsError('GPS timed out. Move near a window, keep the app open, and tap Detect again.');
+          } else {
+            setGpsError('Could not read your location. Check Location Services and tap Detect again.');
+          }
+        },
+        { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+      );
+    };
+
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude: lat, longitude: lng } = position.coords;
-        onLocationSelect(lat, lng);
-        setLocating(false);
-      },
+      onSuccess,
       (error) => {
-        setLocating(false);
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            setGpsError('Permission denied. Please search or enter address manually.');
-            break;
-          default:
-            setGpsError('Could not retrieve your location.');
+        if (error.code === error.PERMISSION_DENIED) {
+          setLocating(false);
+          setGpsError(
+            'GPS is blocked. iPhone: Settings → Safari → Location → Allow, then return and tap Detect again. Also turn on Location Services.'
+          );
+          return;
         }
+        tryAccurate();
       },
-      { enableHighAccuracy: true, timeout: 10000 }
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 120000 }
     );
   };
 
