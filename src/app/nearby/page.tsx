@@ -30,12 +30,12 @@ export default function NearbyLandingPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#120C08]/90 via-[#4A3018]/48 to-transparent" />
           <div className="absolute inset-0 dd-banner-grain pointer-events-none" />
         </div>
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-24 sm:py-20">
-          <div className="max-w-xl space-y-5">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-16 sm:py-20">
+          <div className="max-w-xl space-y-4 sm:space-y-5">
             <span className="dd-chip bg-gold/20 text-amber-100 border border-gold/30">
               Within {NEARBY_RADIUS_KM} km · {NEARBY_AREA_NAME}
             </span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold text-white leading-tight">
+            <h1 className="font-display text-[2rem] leading-[1.15] sm:text-5xl font-semibold text-white">
               Need something from a nearby shop?
             </h1>
             <p className="text-sm sm:text-base text-white/80 leading-relaxed">
@@ -45,11 +45,11 @@ export default function NearbyLandingPage() {
               We can procure items from nearby shops in {NEARBY_AREA_NAME} and around. Applicable procurement and delivery charges will be added to your order.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/nearby/request" className="dd-btn-primary">
+              <Link href="/nearby/request" className="dd-btn-primary w-full sm:w-auto justify-center">
                 Get Anything Nearby
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/nearby/request?item=Lunch" className="dd-btn-ghost bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <Link href="/nearby/request?item=Lunch" className="dd-btn-ghost bg-white/10 border-white/20 text-white hover:bg-white/20 w-full sm:w-auto justify-center">
                 Lunch in Phase 7
               </Link>
             </div>
@@ -79,7 +79,7 @@ export default function NearbyLandingPage() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 pb-16">
+      <section className="px-4 sm:px-6 pb-8 md:pb-16">
         <div className="max-w-6xl mx-auto dd-surface p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div className="space-y-3">
             <h2 className="font-display text-2xl font-semibold">Transparent charges</h2>

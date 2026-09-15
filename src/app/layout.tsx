@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/common/Navbar';
@@ -18,6 +18,12 @@ const fraunces = Fraunces({
   weight: ['500', '600', '700'],
   variable: '--font-fraunces',
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://milk-app-ten.vercel.app'),
@@ -91,7 +97,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SplashScreen />
           <Navbar />
-          <main className="w-full flex-1 pb-32 md:pb-8">
+          <main className="w-full flex-1 md:pb-8">
             {children}
           </main>
           <BottomTabBar />

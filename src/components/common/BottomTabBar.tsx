@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cart-store';
@@ -34,8 +35,10 @@ export default function BottomTabBar() {
         { name: 'Review', path: '/nearby/review', icon: CheckSquare },
       ];
 
-  return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface/95 backdrop-blur-xl border-t border-border-custom z-50 px-2 py-1.5 shadow-[0_-8px_30px_rgba(28,25,23,0.08)] flex items-center justify-around pb-safe-bottom">
+  if (!mounted) return null;
+
+  return createPortal(
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-[200] bg-surface/95 backdrop-blur-xl border-t border-border-custom px-1 pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(28,25,23,0.12)] flex items-center justify-around">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const active =
@@ -50,7 +53,7 @@ export default function BottomTabBar() {
             <Link
               key={tab.path}
               href={tab.path}
-              className="relative -top-4 flex items-center justify-center w-14 h-14 rounded-full bg-foreground text-background shadow-lg border-4 border-surface hover:scale-105 active:scale-95 transition-transform"
+              className="relative -top-3 flex items-center justify-center w-12 h-12 rounded-full bg-foreground text-background shadow-lg border-4 border-surface active:scale-95"
               aria-label="Home"
             >
               <Icon className="w-6 h-6 fill-current" />
@@ -62,7 +65,7 @@ export default function BottomTabBar() {
           <Link
             key={tab.path}
             href={tab.path}
-            className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all relative min-w-[3.5rem] ${
+            className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all relative min-w-0 flex-1 max-w-[4.5rem] ${
               active ? 'text-primary font-extrabold' : 'text-muted-fg'
             }`}
           >
@@ -78,6 +81,7 @@ export default function BottomTabBar() {
           </Link>
         );
       })}
-    </nav>
+    </nav>,
+    document.body
   );
 }

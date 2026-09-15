@@ -42,10 +42,10 @@ export default function Navbar() {
   const steps = nearbyFlow ? nearbySteps : milkSteps;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border-custom bg-surface/85 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between items-center h-[4.25rem]">
-          <Link href="/" className="shrink-0" aria-label="HopInMohali home">
+    <header className="sticky top-0 z-[70] border-b border-border-custom bg-surface/85 backdrop-blur-xl">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6">
+        <div className="flex justify-between items-center h-14 sm:h-[4.25rem] gap-2">
+          <Link href="/" className="min-w-0 shrink" aria-label="HopInMohali home">
             <BrandLogo size="md" />
           </Link>
 
@@ -78,11 +78,11 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <Link
               href="/nearby"
               title="Get Anything Nearby"
-              className={`rounded-full border flex items-center gap-1.5 px-2.5 sm:px-3 h-10 text-xs font-bold transition-all ${
+              className={`hidden md:flex rounded-full border items-center gap-1.5 px-2.5 sm:px-3 h-10 text-xs font-bold transition-all ${
                 nearbyFlow
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border-custom bg-card-bg text-foreground hover:border-primary/50'
@@ -95,7 +95,7 @@ export default function Navbar() {
               type="button"
               onClick={toggleTheme}
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-10 h-10"
+              className="rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
               aria-label="Toggle dark mode"
             >
               {theme === 'dark' ? (
@@ -107,7 +107,7 @@ export default function Navbar() {
 
             <Link
               href="/profile"
-              className={`rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-10 h-10 ${
+              className={`rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 ${
                 isActive('/profile') ? 'border-primary ring-2 ring-primary/20' : ''
               }`}
               title="My User Profile"

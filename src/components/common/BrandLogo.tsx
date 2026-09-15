@@ -9,7 +9,7 @@ type BrandLogoProps = {
 
 const sizes = {
   sm: { box: 'w-8 h-8', text: 'text-[0.95rem]', radius: 'rounded-lg' },
-  md: { box: 'w-9 h-9', text: 'text-[1.05rem] sm:text-[1.2rem] lg:text-[1.3rem]', radius: 'rounded-xl' },
+  md: { box: 'w-8 h-8 sm:w-9 sm:h-9', text: 'text-[0.95rem] sm:text-[1.2rem] lg:text-[1.3rem]', radius: 'rounded-xl' },
   lg: { box: 'w-20 h-20', text: 'text-3xl sm:text-4xl', radius: 'rounded-2xl' },
 };
 
@@ -45,12 +45,12 @@ export function HopInMark({ className = 'w-full h-full' }: { className?: string 
 export default function BrandLogo({ size = 'md', inverted = false, showWordmark = true }: BrandLogoProps) {
   const s = sizes[size];
   return (
-    <span className="inline-flex items-center gap-2.5 group shrink-0">
+    <span className="inline-flex items-center gap-1.5 sm:gap-2.5 group min-w-0">
       <span className={`${s.box} ${s.radius} overflow-hidden shadow-sm shrink-0 group-hover:scale-105 transition-transform`}>
         <HopInMark />
       </span>
       {showWordmark && (
-        <span className={`font-display font-semibold tracking-tight leading-none ${s.text} ${inverted ? 'text-white' : 'text-foreground'}`}>
+        <span className={`font-display font-semibold tracking-tight leading-none truncate ${s.text} ${inverted ? 'text-white' : 'text-foreground'}`}>
           HopIn<span className="text-gold">Mohali</span>
         </span>
       )}

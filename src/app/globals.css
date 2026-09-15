@@ -57,11 +57,15 @@
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-jakarta), sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   letter-spacing: -0.018em;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -80,14 +84,8 @@ main {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -109,7 +107,7 @@ main {
   width: 100%;
   max-width: 72rem;
   margin-inline: auto;
-  padding: 1.5rem 1rem 2.5rem;
+  padding: 1.25rem 1rem 5.5rem;
 }
 
 @media (min-width: 640px) {

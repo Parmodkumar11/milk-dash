@@ -39,14 +39,14 @@ export default function Home() {
           <div className="absolute inset-0 dd-banner-grain pointer-events-none" />
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-28 sm:py-20 md:py-24">
-          <div className="max-w-2xl space-y-5">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-16 sm:py-20 md:py-24">
+          <div className="max-w-2xl space-y-4 sm:space-y-5">
             <div className="dd-chip bg-emerald-400/15 text-emerald-200 border border-emerald-300/25 backdrop-blur-sm">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>100% Pure, Fresh & Vegetarian</span>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl md:text-[3.35rem] font-semibold text-white leading-[1.12]">
+            <h1 className="font-display text-[2rem] leading-[1.15] sm:text-5xl md:text-[3.35rem] font-semibold text-white">
               Fresh milk,
               <br className="hidden sm:block" />
               {' '}exactly your way.
@@ -58,16 +58,16 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-1">
               {MILK_ENABLED ? (
-                <Link href="/order" className="dd-btn-primary">
+                <Link href="/order" className="dd-btn-primary w-full sm:w-auto justify-center">
                   <span>Order now</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               ) : (
-                <span className="dd-btn-ghost bg-white/10 border-white/20 text-white pointer-events-none">
+                <span className="dd-btn-ghost bg-white/10 border-white/20 text-white pointer-events-none w-full sm:w-auto justify-center">
                   Fresh milk · Coming soon
                 </span>
               )}
-              <Link href="/nearby" className="dd-btn-primary">
+              <Link href="/nearby" className="dd-btn-primary w-full sm:w-auto justify-center">
                 Get Anything Nearby
                 <ArrowRight className="w-4 h-4" />
               </Link>
@@ -263,7 +263,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 pb-16 sm:pb-20">
+      <section className="px-4 sm:px-6 pb-24 md:pb-20">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="dd-card p-5 space-y-2">
             <ShieldCheck className="w-6 h-6 text-primary" />

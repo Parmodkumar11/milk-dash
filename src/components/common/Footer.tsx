@@ -9,7 +9,7 @@ import { APP_NAME } from '@/lib/brand';
 
 export default function Footer() {
   return (
-    <footer className="relative z-[60] bg-[#171412] text-[#F4F0EA] pt-12 pb-28 md:pb-10 border-t border-white/10">
+    <footer className="relative z-10 bg-[#171412] text-[#F4F0EA] pt-12 pb-28 md:pb-10 border-t border-white/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="space-y-3">
