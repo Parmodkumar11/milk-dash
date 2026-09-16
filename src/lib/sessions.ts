@@ -13,11 +13,11 @@ const minutes = (hour: number, min = 0) => hour * 60 + min;
 
 export const SESSION_DAYS: SessionDay[] = [
   { weekday: 0, name: 'Sunday', label: '24 hours', allDay: true, startMinutes: 0, endMinutes: 24 * 60 },
-  { weekday: 1, name: 'Monday', label: 'Evening · 6:00 PM – 12:00 PM', allDay: false, startMinutes: minutes(18), endMinutes: minutes(12) },
-  { weekday: 2, name: 'Tuesday', label: 'Evening · 6:00 PM – 12:00 PM', allDay: false, startMinutes: minutes(18), endMinutes: minutes(12) },
-  { weekday: 3, name: 'Wednesday', label: 'Evening · 6:00 PM – 12:00 PM', allDay: false, startMinutes: minutes(18), endMinutes: minutes(12) },
-  { weekday: 4, name: 'Thursday', label: 'Evening · 6:00 PM – 12:00 PM', allDay: false, startMinutes: minutes(18), endMinutes: minutes(12) },
-  { weekday: 5, name: 'Friday', label: 'Evening · 6:00 PM – 12:00 PM', allDay: false, startMinutes: minutes(18), endMinutes: minutes(12) },
+  { weekday: 1, name: 'Monday', label: 'Evening · 6:00 PM – 12:00 AM', allDay: false, startMinutes: minutes(18), endMinutes: 24 * 60 },
+  { weekday: 2, name: 'Tuesday', label: 'Evening · 6:00 PM – 12:00 AM', allDay: false, startMinutes: minutes(18), endMinutes: 24 * 60 },
+  { weekday: 3, name: 'Wednesday', label: 'Evening · 6:00 PM – 12:00 AM', allDay: false, startMinutes: minutes(18), endMinutes: 24 * 60 },
+  { weekday: 4, name: 'Thursday', label: 'Evening · 6:00 PM – 12:00 AM', allDay: false, startMinutes: minutes(18), endMinutes: 24 * 60 },
+  { weekday: 5, name: 'Friday', label: 'Evening · 6:00 PM – 12:00 AM', allDay: false, startMinutes: minutes(18), endMinutes: 24 * 60 },
   { weekday: 6, name: 'Saturday', label: '24 hours', allDay: true, startMinutes: 0, endMinutes: 24 * 60 },
 ];
 
@@ -61,4 +61,24 @@ export function getTodaySession(date = new Date()) {
   const day = SESSION_DAYS.find((item) => item.weekday === clock.weekday) ?? SESSION_DAYS[0];
   const open = isWithinSession(day, clock.minutes);
   return { ...day, open, clock };
+}
+
+function formatClock(totalMinutes: number) {
+  const hour24 = Math.floor(totalMinutes / 60) % 24;
+  const minute = totalMinutes % 60;
+  const suffix = hour24 >= 12 ? 'PM' : 'AM';
+  const hour12 = hour24 % 12 || 12;
+  return `${hour12}:${String(minute).padStart(2, '0')} ${suffix}`;
+}
+
+export function getNextHopCopy(date = new Date()) {
+  const session = getTodaySession(date);
+  if (session.open) return null;
+  const time = formatClock(session.startMinutes);
+  return {
+    headline: session.name,
+    time,
+    label: session.label,
+    message: `We hop again at ${time} IST.`,
+  };
 }

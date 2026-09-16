@@ -9,6 +9,8 @@ import { generateWhatsAppUrl } from '@/lib/whatsapp';
 import { User, Phone, MapPin, Landmark, ArrowLeft, MessageSquare, CheckCircle2, History, ShoppingBag, Clock, CreditCard, Banknote } from 'lucide-react';
 import PageBanner from '@/components/common/PageBanner';
 import { IMAGES } from '@/lib/images';
+import { getTodaySession } from '@/lib/sessions';
+import SessionClosedModal from '@/components/common/SessionClosedModal';
 
 const SmallPreviewMap = dynamic(() => import('@/components/delivery/Map'), {
   ssr: false,
@@ -38,6 +40,7 @@ export default function CheckoutPage() {
   const [orderSent, setOrderSent] = useState(false);
   const [agreedPrivacy, setAgreedPrivacy] = useState(true);
   const [validationError, setValidationError] = useState('');
+  const [sessionClosed, setSessionClosed] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -64,6 +67,10 @@ export default function CheckoutPage() {
   const total = subtotal + deliveryFee + currentCodFee;
 
   const handleWhatsAppOrder = () => {
+    if (!getTodaySession().open) {
+      setSessionClosed(true);
+      return;
+    }
     if (!agreedPrivacy) {
       setValidationError('Please accept the Privacy Policy to proceed.');
       return;
@@ -209,6 +216,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="dd-page pb-28 sm:pb-12 w-full flex-1 flex flex-col">
+      <SessionClosedModal open={sessionClosed} onClose={() => setSessionClosed(false)} />
       <div className="mb-6 space-y-3">
         <button
           type="button"

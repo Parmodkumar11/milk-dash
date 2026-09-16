@@ -14,6 +14,8 @@ import {
   sumEstimatedItems,
 } from '@/lib/nearby';
 import { generateNearbyWhatsAppUrl } from '@/lib/whatsapp';
+import { getTodaySession } from '@/lib/sessions';
+import SessionClosedModal from '@/components/common/SessionClosedModal';
 
 export default function NearbyReviewPage() {
   const router = useRouter();
@@ -21,6 +23,7 @@ export default function NearbyReviewPage() {
   const [mounted, setMounted] = useState(false);
   const [agreed, setAgreed] = useState(true);
   const [error, setError] = useState('');
+  const [sessionClosed, setSessionClosed] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -46,6 +49,10 @@ export default function NearbyReviewPage() {
   const serviceFees = NEARBY_PROCUREMENT_FEE + NEARBY_DELIVERY_FEE;
 
   const handleConfirm = () => {
+    if (!getTodaySession().open) {
+      setSessionClosed(true);
+      return;
+    }
     if (!agreed) {
       setError('Please acknowledge that final prices may vary.');
       return;
@@ -73,6 +80,7 @@ export default function NearbyReviewPage() {
 
   return (
     <div className="dd-page pb-28 sm:pb-12">
+      <SessionClosedModal open={sessionClosed} onClose={() => setSessionClosed(false)} />
       <NearbyStepper />
       <div className="mb-6 space-y-3">
         <button
