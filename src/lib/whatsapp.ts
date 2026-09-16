@@ -135,12 +135,10 @@ _${instructions || 'None'}_
 
 ⚠️ Final item prices may vary based on shop availability.
 
-💰 *Estimate*
-• Items (est.): ₹${estimatedItemsTotal || 0}
-• Procurement: ₹${procurementFee}
-• Delivery: ₹${deliveryFee}
-*EST. TOTAL:* *₹${estimatedTotal}*
-_(Item cost billed at actual shop price)_`;
+💰 *What you pay*
+• Shop bill: what the shop actually charges
+• Procurement / service: ₹${procurementFee}
+• Delivery (within 5 km): ₹${deliveryFee}`;
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 };

@@ -53,7 +53,7 @@ export default function BottomTabBar() {
             <Link
               key={tab.path}
               href={tab.path}
-              className="relative -top-3 flex items-center justify-center w-12 h-12 rounded-full bg-foreground text-background shadow-lg border-4 border-surface active:scale-95"
+              className="relative -top-3 flex items-center justify-center w-12 h-12 rounded-full bg-primary text-on-ink shadow-lg border-4 border-surface active:scale-95"
               aria-label="Home"
             >
               <Icon className="w-6 h-6 fill-current" />

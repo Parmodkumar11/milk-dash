@@ -1,6 +1,9 @@
-export const ANDROID_APP_URL =
-  'https://drive.google.com/file/d/1DC0FngG5QaQDCeZ3zjcXvPdIF0EGe9qZ/view?usp=sharing';
+export const ANDROID_APP_PATH = '/app';
 
-export function openAndroidApp() {
-  window.location.assign(ANDROID_APP_URL);
-}
+export const ANDROID_APP_URL =
+  'https://drive.google.com/file/d/1PyBxgKzhKzu-9KzszL5EE3o87mpGOPjA/view?usp=sharing';
+
+export const INSTAGRAM_PATH = '/instagram';
+export const INSTAGRAM_HANDLE = 'hopinmohali';
+export const INSTAGRAM_URL =
+  'https://www.instagram.com/hopinmohali?stkn=MXFqZGJrcjZ2cXhjbw==';

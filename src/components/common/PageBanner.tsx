@@ -5,11 +5,11 @@ type BannerTone = 'espresso' | 'ember' | 'ice' | 'wood' | 'meadow' | 'shop' | 's
 
 const TONE: Record<BannerTone, string> = {
   espresso: 'from-[#120E0C]/92 via-[#120E0C]/58 to-transparent',
-  ember: 'from-[#2A0E0A]/90 via-[#A33A22]/45 to-transparent',
+  ember: 'from-[#3A1216]/90 via-[#E23744]/45 to-transparent',
   ice: 'from-[#061824]/92 via-[#1A5A86]/48 to-transparent',
   wood: 'from-[#1A1008]/92 via-[#5A3518]/50 to-transparent',
   meadow: 'from-[#122010]/88 via-[#2F4A28]/45 to-transparent',
-  shop: 'from-[#120C08]/92 via-[#4A3018]/50 to-transparent',
+  shop: 'from-[#3A1216]/92 via-[#E23744]/42 to-transparent',
   slate: 'from-[#0E1210]/92 via-[#1F3A2A]/48 to-transparent',
 };
 

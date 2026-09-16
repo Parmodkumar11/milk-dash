@@ -57,6 +57,7 @@ export interface NearbyStoreState {
   setRadiusConfirmed: (value: boolean) => void;
   addItem: () => void;
   addSuggestedItem: (name: string) => void;
+  toggleSuggestedItem: (name: string) => void;
   updateItem: (id: string, patch: Partial<NearbyItem>) => void;
   removeItem: (id: string) => void;
   updateCustomer: (customer: Partial<NearbyCustomer>) => void;

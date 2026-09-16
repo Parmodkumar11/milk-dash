@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowRight, Home, Landmark, MapPin, Phone, User } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Home, Landmark, MapPin, Phone, Store, User } from 'lucide-react';
 import PageBanner from '@/components/common/PageBanner';
 import NearbyStepper from '@/components/nearby/NearbyStepper';
 import { useNearbyStore } from '@/store/nearby-store';
@@ -31,6 +31,7 @@ export default function NearbyLocationPage() {
   const [houseFlat, setHouseFlat] = useState('');
   const [landmark, setLandmark] = useState('');
   const [instructions, setInstructions] = useState('');
+  const [shop, setShop] = useState('');
   const [radiusConfirmed, setRadiusConfirmed] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -51,6 +52,7 @@ export default function NearbyLocationPage() {
     setHouseFlat(nearby.location.houseFlat || cart.deliveryLocation.houseFlat);
     setLandmark(nearby.location.landmark || cart.deliveryLocation.landmark);
     setInstructions(nearby.instructions);
+    setShop(nearby.preferredShop);
     setRadiusConfirmed(nearby.radiusConfirmed);
     if (!nearby.location.latitude) {
       nearby.updateLocation({
@@ -80,6 +82,7 @@ export default function NearbyLocationPage() {
     else if (!/^\d{10}$/.test(phone.trim())) newErrors.phone = 'Enter a valid 10-digit number.';
     if (!address.trim()) newErrors.address = 'Delivery address is required.';
     if (!houseFlat.trim()) newErrors.houseFlat = 'House / room number is required.';
+    if (!shop.trim()) newErrors.shop = 'Please provide the shop name or location.';
     if (!radiusConfirmed) newErrors.radius = 'Please confirm you are within the 5 km service area.';
 
     if (Object.keys(newErrors).length > 0) {
@@ -90,6 +93,7 @@ export default function NearbyLocationPage() {
     nearby.updateCustomer({ name, phone });
     nearby.updateLocation({ address, houseFlat, landmark });
     nearby.setInstructions(instructions);
+    nearby.setPreferredShop(shop);
     nearby.setRadiusConfirmed(true);
     router.push('/nearby/review');
   };
@@ -134,6 +138,24 @@ export default function NearbyLocationPage() {
         <div className="lg:col-span-5 dd-card p-5 sm:p-6 space-y-4">
           <div className="dd-surface p-3 text-sm text-muted-fg">
             Service radius: <strong className="text-foreground">{NEARBY_RADIUS_KM} km</strong> around {NEARBY_AREA_NAME}.
+          </div>
+          <div>
+            <label htmlFor="shop" className="dd-label">Shop name or location *</label>
+            <p className="text-xs text-muted-fg mb-2">
+              Provide the name or location of the shop from which you want to order items.
+            </p>
+            <div className="relative">
+              <Store className="absolute left-3 top-3.5 w-4 h-4 text-muted-fg" />
+              <textarea
+                id="shop"
+                rows={2}
+                value={shop}
+                onChange={(e) => setShop(e.target.value)}
+                className={`dd-input ${errors.shop ? 'dd-input-error' : ''}`}
+                placeholder="e.g. Medical store, Phase 7 market"
+              />
+            </div>
+            {errors.shop && <span className="text-rose-500 text-xs mt-1 block">{errors.shop}</span>}
           </div>
           <div>
             <label htmlFor="name" className="dd-label">Full name *</label>

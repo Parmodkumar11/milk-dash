@@ -26,7 +26,7 @@ export default function NearbyStepper() {
             href={step.path}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
               active
-                ? 'bg-foreground text-background border-foreground'
+                ? 'bg-primary text-white border-primary'
                 : 'bg-card-bg text-muted-fg border-border-custom hover:text-foreground'
             }`}
           >

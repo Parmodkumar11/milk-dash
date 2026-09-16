@@ -35,13 +35,13 @@ export default function Home() {
       <section className="relative overflow-hidden border-b border-border-custom">
         <div className="absolute inset-0">
           <BannerMedia src={IMAGES.hero} alt="Glass of fresh milk" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#120E0C]/90 via-[#120E0C]/58 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3A1216]/90 via-[#E23744]/38 to-transparent" />
           <div className="absolute inset-0 dd-banner-grain pointer-events-none" />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-16 sm:py-20 md:py-24">
           <div className="max-w-2xl space-y-4 sm:space-y-5">
-            <div className="dd-chip bg-emerald-400/15 text-emerald-200 border border-emerald-300/25 backdrop-blur-sm">
+            <div className="dd-chip bg-gold/20 text-gold border border-gold/30 backdrop-blur-sm">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>100% Pure, Fresh & Vegetarian</span>
             </div>
@@ -187,7 +187,7 @@ export default function Home() {
       <section className="px-4 sm:px-6 pb-12 sm:pb-16">
         <div className="max-w-6xl mx-auto relative overflow-hidden rounded-[1.6rem] border border-border-custom min-h-[220px] sm:min-h-[260px]">
           <BannerMedia src={IMAGES.nearby} alt="" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#120C08]/90 via-[#4A3018]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3A1216]/90 via-[#E23744]/42 to-transparent" />
           <div className="absolute inset-0 dd-banner-grain pointer-events-none" />
           <div className="relative z-10 p-6 sm:p-10 max-w-lg space-y-3">
             <span className="dd-chip bg-gold/20 text-amber-100 border border-gold/30">

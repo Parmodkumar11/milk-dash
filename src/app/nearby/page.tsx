@@ -13,7 +13,12 @@ import {
 import BannerMedia from '@/components/common/BannerMedia';
 import SessionHours from '@/components/common/SessionHours';
 import { IMAGES } from '@/lib/images';
-import { NEARBY_DELIVERY_FEE, NEARBY_PROCUREMENT_FEE, NEARBY_RADIUS_KM, NEARBY_AREA_NAME } from '@/lib/nearby';
+import {
+  NEARBY_PROCUREMENT_FEE,
+  NEARBY_DELIVERY_FEE,
+  NEARBY_RADIUS_KM,
+  NEARBY_AREA_NAME,
+} from '@/lib/nearby';
 
 export const metadata: Metadata = {
   title: 'Get Anything Nearby',
@@ -27,7 +32,7 @@ export default function NearbyLandingPage() {
       <section className="relative overflow-hidden border-b border-border-custom">
         <div className="absolute inset-0">
           <BannerMedia src={IMAGES.nearby} alt="Nearby local shop" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#120C08]/90 via-[#4A3018]/48 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3A1216]/90 via-[#E23744]/42 to-transparent" />
           <div className="absolute inset-0 dd-banner-grain pointer-events-none" />
         </div>
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-16 sm:py-20">
@@ -68,7 +73,7 @@ export default function NearbyLandingPage() {
           {[
             { icon: ShoppingBag, title: 'List your items', body: 'Groceries, medicines, snacks, stationery — add as many as you need.' },
             { icon: Store, title: 'We shop nearby', body: `A shopper buys from a local store in ${NEARBY_AREA_NAME}, within about ${NEARBY_RADIUS_KM} km of you.` },
-            { icon: Bike, title: 'Delivered to your room', body: 'Pay the actual item cost plus a small procurement and delivery fee.' },
+            { icon: Bike, title: 'Pay the shop’s price', body: `Items cost what the shop charges. We add ₹${NEARBY_PROCUREMENT_FEE} for shopping and ₹${NEARBY_DELIVERY_FEE} for delivery within ${NEARBY_RADIUS_KM} km.` },
           ].map((card) => (
             <div key={card.title} className="dd-card p-5 space-y-2">
               <card.icon className="w-6 h-6 text-primary" />
@@ -82,22 +87,26 @@ export default function NearbyLandingPage() {
       <section className="px-4 sm:px-6 pb-8 md:pb-16">
         <div className="max-w-6xl mx-auto dd-surface p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div className="space-y-3">
-            <h2 className="font-display text-2xl font-semibold">Transparent charges</h2>
+            <h2 className="font-display text-2xl font-semibold">Simple pricing</h2>
             <p className="text-sm text-muted-fg leading-relaxed">
-              Item prices are billed at what the shop actually charges. Estimates you enter are only a guide.
+              You pay what the shop charges. Two small add-ons cover shopping and delivery.
             </p>
             <ul className="text-sm space-y-2">
+              <li className="flex justify-between gap-4 border-b border-border-custom pb-2">
+                <span>Shop bill</span>
+                <span className="font-bold">What the shop charges</span>
+              </li>
               <li className="flex justify-between gap-4 border-b border-border-custom pb-2">
                 <span>Procurement / service</span>
                 <span className="font-bold">₹{NEARBY_PROCUREMENT_FEE}</span>
               </li>
               <li className="flex justify-between gap-4 border-b border-border-custom pb-2">
-                <span>Delivery (within {NEARBY_RADIUS_KM} km)</span>
+                <span>Delivery <span className="text-muted-fg font-normal">(within {NEARBY_RADIUS_KM} km)</span></span>
                 <span className="font-bold">₹{NEARBY_DELIVERY_FEE}</span>
               </li>
               <li className="flex items-center gap-2 text-muted-fg pt-1">
                 <MapPin className="w-4 h-4 text-primary" />
-                Service area: approximately {NEARBY_RADIUS_KM} km around {NEARBY_AREA_NAME}
+                Within {NEARBY_RADIUS_KM} km of {NEARBY_AREA_NAME}
               </li>
             </ul>
           </div>

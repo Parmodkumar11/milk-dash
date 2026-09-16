@@ -38,13 +38,13 @@ export default function SplashScreen() {
         sessionStorage.setItem('hopin-splash-seen', '1');
         setShowSplash(false);
       }}
-      className={`fixed inset-0 z-[100] bg-[#141210] text-white flex flex-col items-center justify-between p-8 transition-all duration-500 cursor-pointer select-none ${
+      className={`fixed inset-0 z-[100] bg-primary text-on-ink flex flex-col items-center justify-between p-8 transition-all duration-500 cursor-pointer select-none ${
         isFading ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
       <div className="pt-8 text-center">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[11px] font-extrabold tracking-wider uppercase border border-emerald-500/25">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/15 text-on-ink text-[11px] font-extrabold tracking-wider uppercase border border-white/25">
+          <span className="w-2 h-2 rounded-full bg-gold" />
           <span>Nearby shops · Phase 7, Mohali</span>
         </div>
       </div>
@@ -52,19 +52,19 @@ export default function SplashScreen() {
       <div className="flex flex-col items-center text-center space-y-4 max-w-xs">
         <BrandLogo size="lg" inverted />
 
-        <p className="text-sm text-white/70 font-medium italic">
+        <p className="text-sm text-on-ink/80 font-medium italic">
           {APP_TAGLINE}
         </p>
 
-        <div className="flex items-center gap-2 text-[11px] text-emerald-300 font-bold bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
-          <Sparkles className="w-3.5 h-3.5 text-primary" />
+        <div className="flex items-center gap-2 text-[11px] text-on-ink font-bold bg-ink/20 px-3 py-1.5 rounded-lg border border-white/20">
+          <Sparkles className="w-3.5 h-3.5 text-gold" />
           <span>Lunch · Groceries · 5 km</span>
         </div>
       </div>
 
       <div className="pb-6 text-center space-y-1">
-        <p className="text-[11px] text-white/50 flex items-center justify-center gap-1">
-          Made with <Heart className="w-3 h-3 text-rose-500 fill-current inline" /> for your neighbourhood
+        <p className="text-[11px] text-on-ink/70 flex items-center justify-center gap-1">
+          Made with <Heart className="w-3 h-3 text-gold fill-current inline" /> for your neighbourhood
         </p>
         <span className="text-[9px] text-white/30 tracking-widest uppercase block">Tap anywhere to skip</span>
       </div>

@@ -14,7 +14,7 @@ const emptyItem = (): NearbyItem => ({
 export const useNearbyStore = create<NearbyStoreState>()(
   persist(
     (set, get) => ({
-      items: [emptyItem()],
+      items: [],
       preferredShop: '',
       customer: { name: '', phone: '' },
       location: {
@@ -40,16 +40,44 @@ export const useNearbyStore = create<NearbyStoreState>()(
 
       addSuggestedItem: (name) =>
         set((state) => {
+          const label = name.trim();
+          if (!label) return state;
+          const alreadyIn = state.items.some(
+            (item) => item.name.trim().toLowerCase() === label.toLowerCase()
+          );
+          if (alreadyIn) return state;
           const blank = state.items.find((item) => !item.name.trim());
           if (blank) {
             return {
               items: state.items.map((item) =>
-                item.id === blank.id ? { ...item, name } : item
+                item.id === blank.id ? { ...item, name: label } : item
               ),
             };
           }
           return {
-            items: [...state.items, { ...emptyItem(), name }],
+            items: [...state.items, { ...emptyItem(), name: label }],
+          };
+        }),
+
+      toggleSuggestedItem: (name) =>
+        set((state) => {
+          const label = name.trim();
+          if (!label) return state;
+          const match = (item: NearbyItem) =>
+            item.name.trim().toLowerCase() === label.toLowerCase();
+          if (state.items.some(match)) {
+            return { items: state.items.filter((item) => !match(item)) };
+          }
+          const blank = state.items.find((item) => !item.name.trim());
+          if (blank) {
+            return {
+              items: state.items.map((item) =>
+                item.id === blank.id ? { ...item, name: label } : item
+              ),
+            };
+          }
+          return {
+            items: [...state.items, { ...emptyItem(), name: label }],
           };
         }),
 
@@ -62,12 +90,7 @@ export const useNearbyStore = create<NearbyStoreState>()(
 
       removeItem: (id) =>
         set((state) => ({
-          items:
-            state.items.length <= 1
-              ? state.items.map((item) =>
-                  item.id === id ? emptyItem() : item
-                )
-              : state.items.filter((item) => item.id !== id),
+          items: state.items.filter((item) => item.id !== id),
         })),
 
       updateCustomer: (customer) =>
@@ -115,7 +138,7 @@ export const useNearbyStore = create<NearbyStoreState>()(
         set({
           history: [order, ...(state.history || [])],
           activeRequestId: order.requestId,
-          items: [emptyItem()],
+          items: [],
           preferredShop: '',
           instructions: '',
           radiusConfirmed: false,

@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowRight, Plus, Trash2 } from 'lucide-react';
+import { ArrowRight, Plus, Trash2, Check } from 'lucide-react';
 import PageBanner from '@/components/common/PageBanner';
 import NearbyStepper from '@/components/nearby/NearbyStepper';
 import { useNearbyStore } from '@/store/nearby-store';
@@ -13,7 +13,7 @@ import SessionHours from '@/components/common/SessionHours';
 function NearbyRequestForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { items, preferredShop, addItem, addSuggestedItem, updateItem, removeItem, setPreferredShop } =
+  const { items, preferredShop, addItem, addSuggestedItem, toggleSuggestedItem, updateItem, removeItem, setPreferredShop } =
     useNearbyStore();
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState('');
@@ -37,6 +37,10 @@ function NearbyRequestForm() {
       </div>
     );
   }
+
+  const selectedNames = new Set(
+    items.map((item) => item.name.trim().toLowerCase()).filter(Boolean)
+  );
 
   const handleContinue = () => {
     const named = items.filter((item) => item.name.trim());
@@ -66,30 +70,51 @@ function NearbyRequestForm() {
 
       <div className="mt-6 mb-4">
         <p className="text-xs font-bold uppercase tracking-wider text-muted-fg mb-2">Quick add</p>
+        <p className="text-xs text-muted-fg mb-2">Tap to add. Tap again to remove.</p>
         <div className="flex flex-wrap gap-2">
-          {NEARBY_SUGGESTIONS.map((name) => (
-            <button
-              key={name}
-              type="button"
-              onClick={() => addSuggestedItem(name)}
-              className="dd-chip bg-card-bg border border-border-custom text-foreground hover:border-primary/40"
-            >
-              {name}
-            </button>
-          ))}
+          {NEARBY_SUGGESTIONS.map((name) => {
+            const selected = selectedNames.has(name.toLowerCase());
+            return (
+              <button
+                key={name}
+                type="button"
+                onClick={() => {
+                  toggleSuggestedItem(name);
+                  if (error) setError('');
+                }}
+                aria-pressed={selected}
+                className={`dd-chip border transition-colors ${
+                  selected
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-card-bg border-border-custom text-foreground hover:border-primary/40'
+                }`}
+              >
+                {selected && <Check className="w-3.5 h-3.5" />}
+                {name}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <div className="space-y-4">
-        {items.map((item, index) => (
+        {items.length === 0 ? (
+          <div className="dd-card p-6 text-center space-y-2">
+            <p className="font-display text-lg font-semibold">No items yet</p>
+            <p className="text-sm text-muted-fg">Choose from Quick add or add a custom item.</p>
+          </div>
+        ) : (
+          items.map((item, index) => (
           <div key={item.id} className="dd-card p-4 sm:p-5 space-y-3">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="font-display text-base font-semibold">Item {index + 1}</h3>
+              <h3 className="font-display text-base font-semibold">
+                {item.name.trim() || `Item ${index + 1}`}
+              </h3>
               <button
                 type="button"
                 onClick={() => removeItem(item.id)}
                 className="p-2 rounded-lg text-muted-fg hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-                aria-label="Remove item"
+                aria-label={`Remove ${item.name.trim() || `item ${index + 1}`}`}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -141,7 +166,8 @@ function NearbyRequestForm() {
               </div>
             </div>
           </div>
-        ))}
+          ))
+        )}
       </div>
 
       <button
@@ -150,17 +176,20 @@ function NearbyRequestForm() {
         className="dd-btn-ghost w-full mt-4"
       >
         <Plus className="w-4 h-4" />
-        Add another item
+        {items.length === 0 ? 'Add a custom item' : 'Add another item'}
       </button>
 
       <div className="dd-card p-4 sm:p-5 mt-6">
-        <label className="dd-label">Preferred shop (optional)</label>
+        <label className="dd-label">Shop name or location</label>
+        <p className="text-xs text-muted-fg mb-2">
+          Provide the name or location of the shop from which you want to order items.
+        </p>
         <input
           type="text"
           value={preferredShop}
           onChange={(e) => setPreferredShop(e.target.value)}
           className="dd-input pl-4"
-          placeholder="e.g. Medical store near gate 2"
+          placeholder="e.g. Medical store, Phase 7 market"
         />
       </div>
 

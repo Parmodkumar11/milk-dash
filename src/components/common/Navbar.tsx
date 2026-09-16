@@ -60,10 +60,10 @@ export default function Navbar() {
                     className={`flex items-center gap-1.5 px-2.5 lg:px-3.5 py-2 rounded-full transition-colors ${
                       nearbyFlow
                         ? pathname === step.path || (step.path !== '/nearby' && pathname.startsWith(step.path))
-                          ? 'bg-foreground text-background font-semibold shadow-sm'
+                          ? 'bg-primary text-white font-semibold shadow-sm'
                           : 'text-muted-fg hover:text-foreground hover:bg-muted'
                         : active
-                          ? 'bg-foreground text-background font-semibold shadow-sm'
+                          ? 'bg-primary text-white font-semibold shadow-sm'
                           : 'text-muted-fg hover:text-foreground hover:bg-muted'
                     }`}
                   >

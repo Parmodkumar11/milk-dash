@@ -99,12 +99,22 @@ export default function NearbyTrackPage() {
             <span className="text-muted-fg">{item.estimatedCost ? `₹${item.estimatedCost}` : 'TBD'}</span>
           </div>
         ))}
-        <div className="border-t border-border-custom pt-2 flex justify-between font-bold">
-          <span>Est. total</span>
-          <span>₹{active.estimatedTotal}</span>
+        <div className="border-t border-border-custom pt-2 space-y-1">
+          <div className="flex justify-between text-muted-fg">
+            <span>Shop bill</span>
+            <span>What the shop charges</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Procurement / service</span>
+            <span>₹{active.procurementFee}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Delivery (within 5 km)</span>
+            <span>₹{active.deliveryFee}</span>
+          </div>
         </div>
         <p className="text-xs text-muted-fg flex items-center gap-1 pt-1">
-          <Clock className="w-3.5 h-3.5" /> Final amount is actual shop price + fees.
+          <Clock className="w-3.5 h-3.5" /> Items at shop price, plus the two fees above.
         </p>
       </div>
 

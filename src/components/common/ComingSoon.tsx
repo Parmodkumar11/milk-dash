@@ -10,7 +10,7 @@ export default function ComingSoon({ title = 'Fresh milk' }: { title?: string })
     <div className="dd-page pb-28 sm:pb-12">
       <div className="relative overflow-hidden rounded-[1.6rem] border border-border-custom min-h-[280px] sm:min-h-[340px]">
         <BannerMedia src={IMAGES.hero} alt="" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#120E0C]/92 via-[#120E0C]/62 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#3A1216]/92 via-[#E23744]/40 to-transparent" />
         <div className="absolute inset-0 dd-banner-grain pointer-events-none" />
         <div className="relative z-10 p-6 sm:p-10 max-w-lg space-y-4">
           <span className="dd-chip bg-gold/20 text-amber-100 border border-gold/30">

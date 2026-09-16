@@ -16,7 +16,7 @@ const sizes = {
 export function HopInMark({ className = 'w-full h-full' }: { className?: string }) {
   return (
     <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
-      <rect width="48" height="48" rx="12" fill="#E23744" />
+      <rect width="48" height="48" rx="12" fill="var(--brand-red, #E23744)" />
       <path
         d="M10 34c6-2 10-10 12-16"
         fill="none"
@@ -33,11 +33,11 @@ export function HopInMark({ className = 'w-full h-full' }: { className?: string 
       />
       <path
         d="M33 14.5c0 5.2 7 9.6 7 14.2 0 3.4-2.8 5.8-7 5.8s-7-2.4-7-5.8c0-4.6 7-9 7-14.2z"
-        fill="#F6F3EC"
+        fill="var(--brand-cream, #F6F3EC)"
       />
-      <circle cx="33" cy="28.2" r="2.4" fill="#E23744" />
-      <circle cx="14" cy="36.5" r="1.6" fill="#D4B483" />
-      <circle cx="19" cy="31" r="1.15" fill="#D4B483" opacity="0.85" />
+      <circle cx="33" cy="28.2" r="2.4" fill="var(--brand-red, #E23744)" />
+      <circle cx="14" cy="36.5" r="1.6" fill="var(--brand-gold, #D4B483)" />
+      <circle cx="19" cy="31" r="1.15" fill="var(--brand-gold, #D4B483)" opacity="0.85" />
     </svg>
   );
 }

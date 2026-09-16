@@ -8,8 +8,8 @@ import NearbyStepper from '@/components/nearby/NearbyStepper';
 import { useNearbyStore } from '@/store/nearby-store';
 import { IMAGES } from '@/lib/images';
 import {
-  NEARBY_DELIVERY_FEE,
   NEARBY_PROCUREMENT_FEE,
+  NEARBY_DELIVERY_FEE,
   NEARBY_RADIUS_KM,
   sumEstimatedItems,
 } from '@/lib/nearby';
@@ -43,7 +43,7 @@ export default function NearbyReviewPage() {
 
   const namedItems = nearby.items.filter((item) => item.name.trim());
   const estimatedItemsTotal = sumEstimatedItems(namedItems.map((item) => item.estimatedCost));
-  const estimatedTotal = estimatedItemsTotal + NEARBY_PROCUREMENT_FEE + NEARBY_DELIVERY_FEE;
+  const serviceFees = NEARBY_PROCUREMENT_FEE + NEARBY_DELIVERY_FEE;
 
   const handleConfirm = () => {
     if (!agreed) {
@@ -108,7 +108,7 @@ export default function NearbyReviewPage() {
               </div>
             ))}
             {nearby.preferredShop && (
-              <p className="text-sm text-muted-fg">Preferred shop: <strong className="text-foreground">{nearby.preferredShop}</strong></p>
+              <p className="text-sm text-muted-fg">Shop: <strong className="text-foreground">{nearby.preferredShop}</strong></p>
             )}
           </div>
           <div className="dd-card p-5 text-sm space-y-1">
@@ -121,27 +121,37 @@ export default function NearbyReviewPage() {
         </div>
 
         <div className="lg:col-span-5 dd-surface p-5 sm:p-6 space-y-4">
-          <h2 className="font-display text-lg font-semibold">Estimated amount</h2>
+          <h2 className="font-display text-lg font-semibold">What you pay</h2>
           <div className="text-sm space-y-2">
-            <div className="flex justify-between">
-              <span className="text-muted-fg">Items (estimate)</span>
-              <span className="font-semibold">{estimatedItemsTotal > 0 ? `₹${estimatedItemsTotal}` : 'Shop actuals'}</span>
+            <div className="flex justify-between gap-3">
+              <span className="text-muted-fg">Shop bill</span>
+              <span className="font-semibold text-right">
+                {estimatedItemsTotal > 0 ? `About ₹${estimatedItemsTotal}` : 'What the shop charges'}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-fg">Procurement / service</span>
               <span className="font-semibold">₹{NEARBY_PROCUREMENT_FEE}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-fg">Delivery</span>
+              <span className="text-muted-fg">Delivery (within {NEARBY_RADIUS_KM} km)</span>
               <span className="font-semibold">₹{NEARBY_DELIVERY_FEE}</span>
             </div>
-            <div className="border-t border-dashed border-border-custom pt-3 flex justify-between items-baseline">
-              <span className="font-bold">Est. total</span>
-              <span className="font-display text-2xl font-semibold">₹{estimatedTotal}</span>
+            <div className="border-t border-dashed border-border-custom pt-3">
+              {estimatedItemsTotal > 0 ? (
+                <div className="flex justify-between items-baseline">
+                  <span className="font-bold">About</span>
+                  <span className="font-display text-2xl font-semibold">₹{estimatedItemsTotal + serviceFees}</span>
+                </div>
+              ) : (
+                <p className="font-display text-xl font-semibold leading-snug">
+                  Shop bill + ₹{NEARBY_PROCUREMENT_FEE} + ₹{NEARBY_DELIVERY_FEE}
+                </p>
+              )}
             </div>
           </div>
           <p className="text-xs text-muted-fg leading-relaxed">
-            The final item price may vary depending on the shop’s actual price and availability. You pay actual item cost plus procurement and delivery charges.
+            Items stay at the shop’s actual price. No markup on the bill.
           </p>
           <label className="flex items-start gap-2.5 text-sm cursor-pointer">
             <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 w-4 h-4 rounded text-primary" />

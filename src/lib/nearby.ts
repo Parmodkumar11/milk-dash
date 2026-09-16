@@ -1,8 +1,8 @@
 import { NearbyRequestStatus } from '@/types/nearby';
 
 export const NEARBY_RADIUS_KM = 5;
-export const NEARBY_PROCUREMENT_FEE = 25;
-export const NEARBY_DELIVERY_FEE = 20;
+export const NEARBY_PROCUREMENT_FEE = 19;
+export const NEARBY_DELIVERY_FEE = 19;
 
 export const NEARBY_AREA_NAME = 'Phase 7, Mohali';
 export const NEARBY_DEFAULT_LAT = 30.7046;
