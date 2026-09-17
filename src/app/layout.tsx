@@ -5,6 +5,7 @@ import Footer from '@/components/common/Footer';
 import BottomTabBar from '@/components/common/BottomTabBar';
 import SplashScreen from '@/components/common/SplashScreen';
 import ThemeProvider from '@/components/common/ThemeProvider';
+import LanguageProvider from '@/components/common/LanguageProvider';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -83,13 +84,15 @@ export default function RootLayout({
     >
       <body className="bg-background text-foreground min-h-screen flex flex-col font-sans">
         <ThemeProvider>
-          <SplashScreen />
-          <Navbar />
-          <main className="w-full flex-1 md:pb-8">
-            {children}
-          </main>
-          <BottomTabBar />
-          <Footer />
+          <LanguageProvider>
+            <SplashScreen />
+            <Navbar />
+            <main className="w-full flex-1 md:pb-8">
+              {children}
+            </main>
+            <BottomTabBar />
+            <Footer />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

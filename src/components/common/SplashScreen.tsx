@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Heart } from 'lucide-react';
 import BrandLogo from '@/components/common/BrandLogo';
-import { APP_TAGLINE } from '@/lib/brand';
+import { useI18n } from '@/components/common/LanguageProvider';
 
 export default function SplashScreen() {
+  const { t } = useI18n();
   const [showSplash, setShowSplash] = useState(true);
   const [isFading, setIsFading] = useState(false);
 
@@ -45,7 +46,7 @@ export default function SplashScreen() {
       <div className="pt-8 text-center">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/15 text-on-ink text-[11px] font-extrabold tracking-wider uppercase border border-white/25">
           <span className="w-2 h-2 rounded-full bg-gold" />
-          <span>Nearby shops · Phase 7, Mohali</span>
+          <span>{t('splash.badge')}</span>
         </div>
       </div>
 
@@ -53,20 +54,20 @@ export default function SplashScreen() {
         <BrandLogo size="lg" inverted />
 
         <p className="text-sm text-on-ink/80 font-medium italic">
-          {APP_TAGLINE}
+          {t('splash.tagline')}
         </p>
 
         <div className="flex items-center gap-2 text-[11px] text-on-ink font-bold bg-ink/20 px-3 py-1.5 rounded-lg border border-white/20">
           <Sparkles className="w-3.5 h-3.5 text-gold" />
-          <span>Lunch · Groceries · 5 km</span>
+          <span>{t('splash.chips')}</span>
         </div>
       </div>
 
       <div className="pb-6 text-center space-y-1">
         <p className="text-[11px] text-on-ink/70 flex items-center justify-center gap-1">
-          Made with <Heart className="w-3 h-3 text-gold fill-current inline" /> for your neighbourhood
+          Made with <Heart className="w-3 h-3 text-gold fill-current inline" /> {t('footer.forNeighbourhood')}
         </p>
-        <span className="text-[9px] text-white/30 tracking-widest uppercase block">Tap anywhere to skip</span>
+        <span className="text-[9px] text-white/30 tracking-widest uppercase block">{t('common.skip')}</span>
       </div>
     </div>
   );

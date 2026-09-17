@@ -3,8 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { Clock } from 'lucide-react';
 import { getTodaySession, SESSION_DAYS } from '@/lib/sessions';
+import { useI18n } from '@/components/common/LanguageProvider';
+import type { MessageKey } from '@/lib/i18n';
 
 export default function SessionHours({ compact = false }: { compact?: boolean }) {
+  const { t } = useI18n();
   const [status, setStatus] = useState(() => getTodaySession());
 
   useEffect(() => {
@@ -17,7 +20,7 @@ export default function SessionHours({ compact = false }: { compact?: boolean })
     return (
       <p className="text-xs font-semibold text-white/80 flex items-center gap-1.5">
         <Clock className="w-3.5 h-3.5 text-amber-300" />
-        {status.open ? 'Session open now' : 'Session closed right now'} · {status.name} {status.label}
+        {status.open ? t('common.sessionOpen') : t('common.sessionClosed')} · {t(`day.${status.weekday}` as MessageKey)} {status.allDay ? t('day.24h') : t('day.evening')}
       </p>
     );
   }
@@ -27,10 +30,10 @@ export default function SessionHours({ compact = false }: { compact?: boolean })
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="dd-chip bg-primary/8 text-primary mb-2">
-            <Clock className="w-3.5 h-3.5" /> Sessions
+            <Clock className="w-3.5 h-3.5" /> {t('common.sessions')}
           </p>
-          <h2 className="font-display text-xl font-semibold">When we hop for you</h2>
-          <p className="text-sm text-muted-fg mt-1">Times are in IST (Mohali).</p>
+          <h2 className="font-display text-xl font-semibold">{t('common.whenWeHop')}</h2>
+          <p className="text-sm text-muted-fg mt-1">{t('common.timesIst')}</p>
         </div>
         <span
           className={`dd-chip shrink-0 ${
@@ -39,7 +42,7 @@ export default function SessionHours({ compact = false }: { compact?: boolean })
               : 'bg-muted text-muted-fg'
           }`}
         >
-          {status.open ? 'Open now' : 'Closed now'}
+          {status.open ? t('common.openNow') : t('common.closedNow')}
         </span>
       </div>
 
@@ -53,8 +56,8 @@ export default function SessionHours({ compact = false }: { compact?: boolean })
                 isToday ? 'border-primary/30 bg-primary/5 font-semibold' : 'border-transparent'
               }`}
             >
-              <span className={isToday ? 'text-foreground' : 'text-muted-fg'}>{day.name}</span>
-              <span className={isToday ? 'text-foreground' : 'text-muted-fg'}>{day.label}</span>
+              <span className={isToday ? 'text-foreground' : 'text-muted-fg'}>{t(`day.${day.weekday}` as MessageKey)}</span>
+              <span className={isToday ? 'text-foreground' : 'text-muted-fg'}>{day.allDay ? t('day.24h') : t('day.evening')}</span>
             </li>
           );
         })}

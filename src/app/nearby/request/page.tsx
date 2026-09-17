@@ -9,6 +9,8 @@ import { useNearbyStore } from '@/store/nearby-store';
 import { IMAGES } from '@/lib/images';
 import { NEARBY_AREA_NAME, NEARBY_SUGGESTIONS } from '@/lib/nearby';
 import SessionHours from '@/components/common/SessionHours';
+import { useI18n } from '@/components/common/LanguageProvider';
+import type { MessageKey } from '@/lib/i18n';
 
 function NearbyRequestForm() {
   const router = useRouter();
@@ -17,6 +19,7 @@ function NearbyRequestForm() {
     useNearbyStore();
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState('');
+  const { t } = useI18n();
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +48,7 @@ function NearbyRequestForm() {
   const handleContinue = () => {
     const named = items.filter((item) => item.name.trim());
     if (named.length === 0) {
-      setError('Add at least one item to continue.');
+      setError(t('request.needItem'));
       return;
     }
     setError('');
@@ -57,11 +60,11 @@ function NearbyRequestForm() {
       <NearbyStepper />
       <PageBanner
         compact
-        kicker="Step 1 · Request items"
-        title="What should we buy?"
-        subtitle={`Lunch, groceries, medicines — delivered around ${NEARBY_AREA_NAME}.`}
+        kicker={t('request.kicker')}
+        title={t('request.title')}
+        subtitle={t('request.subtitle', { area: NEARBY_AREA_NAME })}
         imageSrc={IMAGES.nearby}
-        imageAlt="Local shop shelves"
+        imageAlt={t('request.bannerAlt')}
         tone="shop"
       />
       <div className="mt-6">
@@ -69,8 +72,8 @@ function NearbyRequestForm() {
       </div>
 
       <div className="mt-6 mb-4">
-        <p className="text-xs font-bold uppercase tracking-wider text-muted-fg mb-2">Quick add</p>
-        <p className="text-xs text-muted-fg mb-2">Tap to add. Tap again to remove.</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-muted-fg mb-2">{t('request.quickAdd')}</p>
+        <p className="text-xs text-muted-fg mb-2">{t('request.quickHint')}</p>
         <div className="flex flex-wrap gap-2">
           {NEARBY_SUGGESTIONS.map((name) => {
             const selected = selectedNames.has(name.toLowerCase());
@@ -90,7 +93,7 @@ function NearbyRequestForm() {
                 }`}
               >
                 {selected && <Check className="w-3.5 h-3.5" />}
-                {name}
+                {t(`suggest.${name}` as MessageKey)}
               </button>
             );
           })}
@@ -100,28 +103,28 @@ function NearbyRequestForm() {
       <div className="space-y-4">
         {items.length === 0 ? (
           <div className="dd-card p-6 text-center space-y-2">
-            <p className="font-display text-lg font-semibold">No items yet</p>
-            <p className="text-sm text-muted-fg">Choose from Quick add or add a custom item.</p>
+            <p className="font-display text-lg font-semibold">{t('request.emptyTitle')}</p>
+            <p className="text-sm text-muted-fg">{t('request.emptyBody')}</p>
           </div>
         ) : (
           items.map((item, index) => (
           <div key={item.id} className="dd-card p-4 sm:p-5 space-y-3">
             <div className="flex items-center justify-between gap-3">
               <h3 className="font-display text-base font-semibold">
-                {item.name.trim() || `Item ${index + 1}`}
+                {item.name.trim() || t('request.itemN', { n: index + 1 })}
               </h3>
               <button
                 type="button"
                 onClick={() => removeItem(item.id)}
                 className="p-2 rounded-lg text-muted-fg hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-                aria-label={`Remove ${item.name.trim() || `item ${index + 1}`}`}
+                aria-label={t('request.remove', { name: item.name.trim() || t('request.itemN', { n: index + 1 }) })}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="sm:col-span-2">
-                <label className="dd-label">Item name *</label>
+                <label className="dd-label">{t('request.itemName')}</label>
                 <input
                   type="text"
                   value={item.name}
@@ -130,38 +133,38 @@ function NearbyRequestForm() {
                     if (error) setError('');
                   }}
                   className="dd-input pl-4"
-                  placeholder="e.g. Paracetamol, bread, A4 notebook"
+                  placeholder={t('request.itemPlaceholder')}
                 />
               </div>
               <div>
-                <label className="dd-label">Quantity</label>
+                <label className="dd-label">{t('request.qty')}</label>
                 <input
                   type="text"
                   value={item.quantity}
                   onChange={(e) => updateItem(item.id, { quantity: e.target.value })}
                   className="dd-input pl-4"
-                  placeholder="e.g. 2 packs"
+                  placeholder={t('request.qtyPlaceholder')}
                 />
               </div>
               <div>
-                <label className="dd-label">Estimated cost (₹, optional)</label>
+                <label className="dd-label">{t('request.cost')}</label>
                 <input
                   type="number"
                   min="0"
                   value={item.estimatedCost}
                   onChange={(e) => updateItem(item.id, { estimatedCost: e.target.value })}
                   className="dd-input pl-4"
-                  placeholder="If you know approx. price"
+                  placeholder={t('request.costPlaceholder')}
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="dd-label">Notes / instructions</label>
+                <label className="dd-label">{t('request.notes')}</label>
                 <input
                   type="text"
                   value={item.notes}
                   onChange={(e) => updateItem(item.id, { notes: e.target.value })}
                   className="dd-input pl-4"
-                  placeholder="Brand, size, or substitutes"
+                  placeholder={t('request.notesPlaceholder')}
                 />
               </div>
             </div>
@@ -176,27 +179,30 @@ function NearbyRequestForm() {
         className="dd-btn-ghost w-full mt-4"
       >
         <Plus className="w-4 h-4" />
-        {items.length === 0 ? 'Add a custom item' : 'Add another item'}
+        {items.length === 0 ? t('request.addCustom') : t('request.addAnother')}
       </button>
 
       <div className="dd-card p-4 sm:p-5 mt-6">
-        <label className="dd-label">Shop name or location</label>
+        <label className="dd-label" htmlFor="preferredShop">{t('request.shopLabel')}</label>
         <p className="text-xs text-muted-fg mb-2">
-          Provide the name or location of the shop from which you want to order items.
+          {t('request.shopHint')}
         </p>
         <input
+          id="preferredShop"
+          name="preferredShop"
           type="text"
           value={preferredShop}
           onChange={(e) => setPreferredShop(e.target.value)}
           className="dd-input pl-4"
-          placeholder="e.g. Medical store, Phase 7 market"
+          placeholder={t('request.shopPlaceholder')}
+          autoComplete="off"
         />
       </div>
 
       {error && <p className="text-rose-500 text-sm font-bold mt-3">{error}</p>}
 
       <button type="button" onClick={handleContinue} className="dd-btn-primary w-full mt-6">
-        Continue to location
+        {t('request.continue')}
         <ArrowRight className="w-4 h-4" />
       </button>
     </div>

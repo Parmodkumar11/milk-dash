@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { getNextHopCopy, getTodaySession } from '@/lib/sessions';
+import { useI18n } from '@/components/common/LanguageProvider';
+import type { MessageKey } from '@/lib/i18n';
 
 const FUNNY_GIFS = [
   { src: '/gifs/nope.png', alt: 'Nope, not yet' },
@@ -24,6 +26,7 @@ export default function SessionClosedModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const { t } = useI18n();
   const [mounted, setMounted] = useState(false);
   const nextHop = getNextHopCopy();
   const session = getTodaySession();
@@ -66,7 +69,7 @@ export default function SessionClosedModal({
       <button
         type="button"
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        aria-label="Close"
+        aria-label={t('closed.close')}
         onClick={onClose}
       />
       <div className="relative z-10 bg-card-bg rounded-t-[1.6rem] sm:rounded-[1.6rem] w-full max-w-md overflow-hidden animate-slide-up sm:animate-none border border-border-custom shadow-[var(--shadow-soft)]">
@@ -80,7 +83,7 @@ export default function SessionClosedModal({
             type="button"
             onClick={onClose}
             className="absolute top-3 right-3 p-2 rounded-full bg-black/45 text-white hover:bg-black/60"
-            aria-label="Close"
+            aria-label={t('closed.close')}
           >
             <X className="w-4 h-4" />
           </button>
@@ -88,24 +91,29 @@ export default function SessionClosedModal({
 
         <div className="p-5 sm:p-6 space-y-4">
           <div>
-            <p className="dd-chip bg-primary/8 text-primary mb-2">Session closed</p>
+            <p className="dd-chip bg-primary/8 text-primary mb-2">{t('closed.chip')}</p>
             <h3 id="session-closed-title" className="font-display text-2xl font-semibold text-foreground leading-tight">
-              {line.title}
+              {t(`closed.line${(FUNNY_LINES.indexOf(line) + 1) as 1 | 2 | 3}Title` as MessageKey)}
             </h3>
-            <p className="text-sm text-muted-fg mt-2 leading-relaxed">{line.body}</p>
+            <p className="text-sm text-muted-fg mt-2 leading-relaxed">
+              {t(`closed.line${(FUNNY_LINES.indexOf(line) + 1) as 1 | 2 | 3}Body` as MessageKey)}
+            </p>
           </div>
 
           <div className="dd-surface p-3.5 text-sm">
             <p className="font-bold text-foreground">
-              {nextHop?.message ?? 'Check the session hours and hop back then.'}
+              {nextHop ? t('closed.next', { time: nextHop.time }) : t('closed.fallback')}
             </p>
             <p className="text-muted-fg mt-1">
-              Today · {session.name} · {session.label}
+              {t('closed.today', {
+                name: t(`day.${session.weekday}` as MessageKey),
+                label: session.allDay ? t('day.24h') : t('day.evening'),
+              })}
             </p>
           </div>
 
           <button type="button" onClick={onClose} className="dd-btn-primary w-full">
-            Okay, I&apos;ll hop later
+            {t('closed.ok')}
           </button>
         </div>
       </div>

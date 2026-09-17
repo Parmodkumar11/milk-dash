@@ -7,10 +7,12 @@ import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cart-store';
 import { Flame, ShoppingCart, Home, MapPin, CheckSquare, Store, ClipboardList } from 'lucide-react';
 import { MILK_ENABLED } from '@/lib/features';
+import { useI18n } from '@/components/common/LanguageProvider';
 
 export default function BottomTabBar() {
   const pathname = usePathname();
   const items = useCartStore((state) => state.items);
+  const { t } = useI18n();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,18 +23,18 @@ export default function BottomTabBar() {
 
   const tabs = MILK_ENABLED
     ? [
-        { name: 'Order', path: '/order', icon: Flame },
-        { name: 'Cart', path: '/cart', icon: ShoppingCart, badge: totalItems },
-        { name: 'Home', path: '/', icon: Home, isCenter: true },
-        { name: 'Delivery', path: '/delivery', icon: MapPin },
-        { name: 'Checkout', path: '/checkout', icon: CheckSquare },
+        { name: t('nav.order'), path: '/order', icon: Flame },
+        { name: t('nav.cart'), path: '/cart', icon: ShoppingCart, badge: totalItems },
+        { name: t('nav.home'), path: '/', icon: Home, isCenter: true },
+        { name: t('nav.delivery'), path: '/delivery', icon: MapPin },
+        { name: t('nav.checkout'), path: '/checkout', icon: CheckSquare },
       ]
     : [
-        { name: 'Nearby', path: '/nearby', icon: Store },
-        { name: 'Request', path: '/nearby/request', icon: ClipboardList },
-        { name: 'Home', path: '/', icon: Home, isCenter: true },
-        { name: 'Location', path: '/nearby/location', icon: MapPin },
-        { name: 'Review', path: '/nearby/review', icon: CheckSquare },
+        { name: t('nav.nearby'), path: '/nearby', icon: Store },
+        { name: t('nav.request'), path: '/nearby/request', icon: ClipboardList },
+        { name: t('nav.home'), path: '/', icon: Home, isCenter: true },
+        { name: t('nav.location'), path: '/nearby/location', icon: MapPin },
+        { name: t('nav.review'), path: '/nearby/review', icon: CheckSquare },
       ];
 
   if (!mounted) return null;
@@ -54,7 +56,7 @@ export default function BottomTabBar() {
               key={tab.path}
               href={tab.path}
               className="relative -top-3 flex items-center justify-center w-12 h-12 rounded-full bg-primary text-on-ink shadow-lg border-4 border-surface active:scale-95"
-              aria-label="Home"
+              aria-label={t('nav.home')}
             >
               <Icon className="w-6 h-6 fill-current" />
             </Link>

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MapPin, Navigation } from 'lucide-react';
+import { useI18n } from '@/components/common/LanguageProvider';
 
 interface MapComponentProps {
   latitude: number | null;
@@ -26,6 +27,7 @@ export default function MapComponent({
   const markerRef = useRef<L.Marker | null>(null);
   const [gpsError, setGpsError] = useState<string | null>(null);
   const [locating, setLocating] = useState<boolean>(false);
+  const { t } = useI18n();
 
   const currentLat = latitude || fallbackLatitude;
   const currentLng = longitude || fallbackLongitude;
@@ -122,11 +124,11 @@ export default function MapComponent({
   const detectLocation = () => {
     if (readOnly || !onLocationSelect) return;
     if (typeof window !== 'undefined' && !window.isSecureContext) {
-      setGpsError('Location works only on HTTPS. Open the live site, then tap Detect again.');
+      setGpsError(t('map.https'));
       return;
     }
     if (!navigator.geolocation) {
-      setGpsError('This browser cannot read GPS. Try Safari or Chrome.');
+      setGpsError(t('map.noGps'));
       return;
     }
 
@@ -145,13 +147,11 @@ export default function MapComponent({
         (error) => {
           setLocating(false);
           if (error.code === error.PERMISSION_DENIED) {
-            setGpsError(
-              'GPS is blocked. iPhone: Settings → Safari → Location → Allow, then return and tap Detect again. Also turn on Location Services.'
-            );
+            setGpsError(t('map.blocked'));
           } else if (error.code === error.TIMEOUT) {
-            setGpsError('GPS timed out. Move near a window, keep the app open, and tap Detect again.');
+            setGpsError(t('map.timeout'));
           } else {
-            setGpsError('Could not read your location. Check Location Services and tap Detect again.');
+            setGpsError(t('map.fail'));
           }
         },
         { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
@@ -163,9 +163,7 @@ export default function MapComponent({
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
           setLocating(false);
-          setGpsError(
-            'GPS is blocked. iPhone: Settings → Safari → Location → Allow, then return and tap Detect again. Also turn on Location Services.'
-          );
+          setGpsError(t('map.blocked'));
           return;
         }
         tryAccurate();
@@ -179,7 +177,7 @@ export default function MapComponent({
       {!readOnly && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
           <span className="text-xs font-bold text-muted-fg uppercase tracking-wider flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5 text-primary" /> Pinpoint your location
+            <MapPin className="w-3.5 h-3.5 text-primary" /> {t('map.pinpoint')}
           </span>
           <button
             type="button"
@@ -188,7 +186,7 @@ export default function MapComponent({
             className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary/20 text-xs font-bold rounded-lg transition-colors disabled:opacity-50"
           >
             <Navigation className={`w-3.5 h-3.5 ${locating ? 'animate-spin' : ''}`} />
-            <span>{locating ? 'Locating...' : 'Detect My Location'}</span>
+            <span>{locating ? t('map.locating') : t('map.detect')}</span>
           </button>
         </div>
       )}
@@ -205,7 +203,7 @@ export default function MapComponent({
 
       {!readOnly && (
         <p className="text-[11px] text-muted-fg mt-2 italic text-center sm:text-left">
-          Drag the orange pin to your exact delivery location or click anywhere on the map to position it.
+          {t('map.drag')}
         </p>
       )}
     </div>

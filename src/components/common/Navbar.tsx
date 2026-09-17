@@ -8,11 +8,14 @@ import { ShoppingCart, Flame, MapPin, CheckSquare, ChevronRight, User, Sun, Moon
 import { useTheme } from '@/components/common/ThemeProvider';
 import { MILK_ENABLED } from '@/lib/features';
 import BrandLogo from '@/components/common/BrandLogo';
+import LanguageSwitcher from '@/components/common/LanguageSwitcher';
+import { useI18n } from '@/components/common/LanguageProvider';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { items, customer } = useCartStore();
   const { theme, toggleTheme } = useTheme();
+  const { t } = useI18n();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -25,17 +28,17 @@ export default function Navbar() {
   const isActive = (path: string) => pathname === path;
 
   const milkSteps = [
-    { name: 'Order', path: '/order', icon: Flame },
-    { name: 'Cart', path: '/cart', icon: ShoppingCart },
-    { name: 'Delivery', path: '/delivery', icon: MapPin },
-    { name: 'Checkout', path: '/checkout', icon: CheckSquare },
+    { name: t('nav.order'), path: '/order', icon: Flame },
+    { name: t('nav.cart'), path: '/cart', icon: ShoppingCart },
+    { name: t('nav.delivery'), path: '/delivery', icon: MapPin },
+    { name: t('nav.checkout'), path: '/checkout', icon: CheckSquare },
   ];
 
   const nearbySteps = [
-    { name: 'Nearby', path: '/nearby', icon: Store },
-    { name: 'Request', path: '/nearby/request', icon: ClipboardList },
-    { name: 'Location', path: '/nearby/location', icon: MapPin },
-    { name: 'Review', path: '/nearby/review', icon: CheckSquare },
+    { name: t('nav.nearby'), path: '/nearby', icon: Store },
+    { name: t('nav.request'), path: '/nearby/request', icon: ClipboardList },
+    { name: t('nav.location'), path: '/nearby/location', icon: MapPin },
+    { name: t('nav.review'), path: '/nearby/review', icon: CheckSquare },
   ];
 
   const nearbyFlow = pathname.startsWith('/nearby') || !MILK_ENABLED;
@@ -49,7 +52,7 @@ export default function Navbar() {
             <BrandLogo size="md" />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 text-sm font-medium min-w-0" aria-label="Order steps">
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 text-sm font-medium min-w-0" aria-label={t('nav.steps')}>
             {steps.map((step, idx) => {
               const Icon = step.icon;
               const active = isActive(step.path);
@@ -79,9 +82,10 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <LanguageSwitcher />
             <Link
               href="/nearby"
-              title="Get Anything Nearby"
+              title={t('nav.getNearby')}
               className={`hidden md:flex rounded-full border items-center gap-1.5 px-2.5 sm:px-3 h-10 text-xs font-bold transition-all ${
                 nearbyFlow
                   ? 'border-primary bg-primary/10 text-primary'
@@ -89,12 +93,12 @@ export default function Navbar() {
               }`}
             >
               <Store className="w-4 h-4" />
-              <span className="hidden sm:inline">Nearby</span>
+              <span className="hidden sm:inline">{t('nav.nearby')}</span>
             </Link>
             <button
               type="button"
               onClick={toggleTheme}
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={theme === 'dark' ? t('nav.themeLight') : t('nav.themeDark')}
               className="rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
               aria-label="Toggle dark mode"
             >
@@ -110,7 +114,7 @@ export default function Navbar() {
               className={`rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 ${
                 isActive('/profile') ? 'border-primary ring-2 ring-primary/20' : ''
               }`}
-              title="My User Profile"
+              title={t('nav.profile')}
             >
               <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-gold text-white flex items-center justify-center text-xs font-black">
                 {mounted && customer.name ? customer.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}

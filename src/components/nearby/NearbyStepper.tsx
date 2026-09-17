@@ -4,19 +4,21 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ClipboardList, MapPin, Receipt, Radio } from 'lucide-react';
-
-const steps = [
-  { name: 'Request', path: '/nearby/request', icon: ClipboardList },
-  { name: 'Location', path: '/nearby/location', icon: MapPin },
-  { name: 'Review', path: '/nearby/review', icon: Receipt },
-  { name: 'Track', path: '/nearby/track', icon: Radio },
-];
+import { useI18n } from '@/components/common/LanguageProvider';
 
 export default function NearbyStepper() {
   const pathname = usePathname();
+  const { t } = useI18n();
+
+  const steps = [
+    { name: t('nav.request'), path: '/nearby/request', icon: ClipboardList },
+    { name: t('nav.location'), path: '/nearby/location', icon: MapPin },
+    { name: t('nav.review'), path: '/nearby/review', icon: Receipt },
+    { name: t('nav.track'), path: '/nearby/track', icon: Radio },
+  ];
 
   return (
-    <nav className="flex flex-wrap gap-2 mb-6" aria-label="Nearby request steps">
+    <nav className="flex flex-wrap gap-2 mb-6" aria-label={t('nav.steps')}>
       {steps.map((step) => {
         const Icon = step.icon;
         const active = pathname === step.path;

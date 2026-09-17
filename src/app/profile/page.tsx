@@ -10,6 +10,7 @@ import { ANDROID_APP_PATH, INSTAGRAM_PATH } from '@/lib/app-links';
 import { InstagramGlyph } from '@/components/common/InstagramFollowButton';
 import PageBanner from '@/components/common/PageBanner';
 import { IMAGES } from '@/lib/images';
+import { useI18n } from '@/components/common/LanguageProvider';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function ProfilePage() {
   const [locating, setLocating] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useI18n();
 
   useEffect(() => {
     setMounted(true);
@@ -108,15 +110,15 @@ export default function ProfilePage() {
           type="button"
           onClick={() => router.back()}
           className="p-2.5 rounded-full border border-border-custom bg-card-bg text-muted-fg hover:text-foreground hover:bg-muted transition-all"
-          title="Back"
+          title={t('common.back')}
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
         <PageBanner
           compact
-          kicker="Account"
-          title="My profile"
-          subtitle="Your details and past orders, in one place."
+          kicker={t('profile.kicker')}
+          title={t('profile.title')}
+          subtitle={t('profile.subtitle')}
           imageSrc={IMAGES.profile}
           imageAlt="Profile"
           tone="ember"
