@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { LOCALES, type Locale } from '@/lib/i18n';
 
 export default function LanguageWelcome({
@@ -10,17 +11,29 @@ export default function LanguageWelcome({
   locale: Locale;
   onChoose: (locale: Locale) => void;
 }) {
-  const [picked, setPicked] = React.useState<Locale>(locale);
+  const [picked, setPicked] = useState<Locale>(locale);
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      className="fixed inset-0 z-[220] flex items-end sm:items-center justify-center p-0 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lang-welcome-title"
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-      <div className="relative z-10 w-full max-w-md bg-card-bg rounded-t-[1.6rem] sm:rounded-[1.6rem] border border-border-custom shadow-[var(--shadow-soft)] p-5 sm:p-6 space-y-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+      <div className="relative z-10 w-full max-w-md bg-card-bg rounded-t-[1.6rem] sm:rounded-[1.6rem] border border-border-custom shadow-[var(--shadow-soft)] px-5 pt-5 sm:p-6 flex flex-col gap-4 pb-[max(1.25rem,calc(env(safe-area-inset-bottom)+1rem))]">
         <div className="space-y-1">
           <h2 id="lang-welcome-title" className="font-display text-2xl font-semibold leading-tight">
             Choose your language
@@ -52,10 +65,11 @@ export default function LanguageWelcome({
           })}
         </div>
 
-        <button type="button" className="dd-btn-primary w-full" onClick={() => onChoose(picked)}>
+        <button type="button" className="dd-btn-primary w-full min-h-12 shrink-0" onClick={() => onChoose(picked)}>
           Continue · आगे बढ़ें · ਅੱਗੇ ਵਧੋ
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
