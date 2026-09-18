@@ -177,7 +177,7 @@ export const en = {
   'location.shopHint': 'Provide the name or location of the shop from which you want to order items.',
   'location.shopPlaceholder': 'e.g. Medical store, Phase 7 market',
   'location.name': 'Full name *',
-  'location.namePlaceholder': 'Your name',
+  'location.namePlaceholder': 'Your name ',
   'location.phone': 'WhatsApp number *',
   'location.phonePlaceholder': '10-digit mobile',
   'location.house': 'Room / house / flat *',
