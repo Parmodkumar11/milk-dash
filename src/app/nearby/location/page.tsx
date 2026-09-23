@@ -191,29 +191,46 @@ export default function NearbyLocationPage() {
           <div className="dd-surface p-3 text-sm text-muted-fg">
             {t('location.radius', { km: NEARBY_RADIUS_KM, area: NEARBY_AREA_NAME })}
           </div>
-          <div>
-            <label htmlFor="shop" className="dd-label">{t('location.shop')}</label>
-            <p className="text-xs text-muted-fg mb-2">
-              {t('location.shopHint')}
-            </p>
-            <div className="relative">
-              <Store className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
-              <input
-                id="shop"
-                name="shop"
-                type="text"
-                value={shop}
-                onChange={(e) => {
-                  setShop(e.target.value);
-                  if (errors.shop) clearError('shop');
-                }}
-                className={`dd-input ${errors.shop ? 'dd-input-error' : ''}`}
-                placeholder={t('location.shopPlaceholder')}
-                autoComplete="off"
-              />
-            </div>
-            {errors.shop && <span className="text-rose-500 text-xs mt-1 block">{errors.shop}</span>}
-          </div>
+         <div>
+  <label htmlFor="shop" className="dd-label">
+    {t('location.shop')}
+  </label>
+
+  <div className="relative">
+    <Store className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
+
+    <input
+      id="shop"
+      name="shop"
+      type="text"
+      value={shop}
+      onChange={(e) => {
+        setShop(e.target.value);
+
+        if (errors.shop) {
+          clearError('shop');
+        }
+      }}
+      className={`dd-input pl-10 ${
+        errors.shop ? 'dd-input-error' : ''
+      }`}
+      placeholder={t('location.shopPlaceholder')}
+      autoComplete="off"
+      aria-invalid={!!errors.shop}
+      aria-describedby={errors.shop ? 'shop-error' : undefined}
+    />
+  </div>
+
+  {errors.shop && (
+    <span
+      id="shop-error"
+      className="text-rose-500 text-xs mt-1 block"
+      role="alert"
+    >
+      {errors.shop}
+    </span>
+  )}
+</div>
           <div>
             <label htmlFor="name" className="dd-label">{t('location.name')}</label>
             <div className="relative">
