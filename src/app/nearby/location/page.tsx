@@ -50,7 +50,6 @@ export default function NearbyLocationPage() {
   const [houseFlat, setHouseFlat] = useState('');
   const [landmark, setLandmark] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [shop, setShop] = useState('');
   const [radiusConfirmed, setRadiusConfirmed] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { t } = useI18n();
@@ -72,7 +71,6 @@ export default function NearbyLocationPage() {
     setHouseFlat(nearby.location.houseFlat || cart.deliveryLocation.houseFlat);
     setLandmark(nearby.location.landmark || cart.deliveryLocation.landmark);
     setInstructions(nearby.instructions);
-    setShop(nearby.preferredShop);
     setRadiusConfirmed(nearby.radiusConfirmed);
     if (!nearby.location.latitude) {
       nearby.updateLocation({
@@ -102,7 +100,6 @@ export default function NearbyLocationPage() {
     e.preventDefault();
     const form = e.currentTarget;
     // Read the DOM so browser autofill is included (React state can still be empty).
-    const shopValue = readField(form, 'shop', shop).trim();
     const nameValue = readField(form, 'name', name).trim();
     const phoneValue = indianMobile(readField(form, 'phone', phone));
     const houseFlatValue = readField(form, 'houseFlat', houseFlat).trim();
@@ -113,7 +110,6 @@ export default function NearbyLocationPage() {
     const radiusValue =
       radiusEl instanceof HTMLInputElement ? radiusEl.checked : radiusConfirmed;
 
-    setShop(shopValue);
     setName(nameValue);
     setPhone(phoneValue);
     setHouseFlat(houseFlatValue);
@@ -123,7 +119,6 @@ export default function NearbyLocationPage() {
     setRadiusConfirmed(radiusValue);
 
     const newErrors: { [key: string]: string } = {};
-    if (!shopValue) newErrors.shop = t('location.errShop');
     if (!nameValue) newErrors.name = t('location.errName');
     if (!phoneValue) newErrors.phone = t('location.errPhone');
     else if (phoneValue.length !== 10) newErrors.phone = t('location.errPhoneDigits');
@@ -145,7 +140,6 @@ export default function NearbyLocationPage() {
     nearby.updateCustomer({ name: nameValue, phone: phoneValue });
     nearby.updateLocation({ address: addressValue, houseFlat: houseFlatValue, landmark: landmarkValue });
     nearby.setInstructions(instructionsValue);
-    nearby.setPreferredShop(shopValue);
     nearby.setRadiusConfirmed(true);
     router.push('/nearby/review');
   };
@@ -192,44 +186,6 @@ export default function NearbyLocationPage() {
             {t('location.radius', { km: NEARBY_RADIUS_KM, area: NEARBY_AREA_NAME })}
           </div>
          <div>
-  <label htmlFor="shop" className="dd-label">
-    {t('location.shop')}
-  </label>
-
-  <div className="relative">
-    <Store className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
-
-    <input
-      id="shop"
-      name="shop"
-      type="text"
-      value={shop}
-      onChange={(e) => {
-        setShop(e.target.value);
-
-        if (errors.shop) {
-          clearError('shop');
-        }
-      }}
-      className={`dd-input pl-10 ${
-        errors.shop ? 'dd-input-error' : ''
-      }`}
-      placeholder={t('location.shopPlaceholder')}
-      autoComplete="off"
-      aria-invalid={!!errors.shop}
-      aria-describedby={errors.shop ? 'shop-error' : undefined}
-    />
-  </div>
-
-  {errors.shop && (
-    <span
-      id="shop-error"
-      className="text-rose-500 text-xs mt-1 block"
-      role="alert"
-    >
-      {errors.shop}
-    </span>
-  )}
 </div>
           <div>
             <label htmlFor="name" className="dd-label">{t('location.name')}</label>

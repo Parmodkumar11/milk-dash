@@ -15,7 +15,6 @@ export const useNearbyStore = create<NearbyStoreState>()(
   persist(
     (set, get) => ({
       items: [],
-      preferredShop: '',
       customer: { name: '', phone: '' },
       location: {
         latitude: null,
@@ -29,7 +28,6 @@ export const useNearbyStore = create<NearbyStoreState>()(
       history: [],
       activeRequestId: null,
 
-      setPreferredShop: (shop) => set({ preferredShop: shop }),
       setInstructions: (notes) => set({ instructions: notes }),
       setRadiusConfirmed: (value) => set({ radiusConfirmed: value }),
 
@@ -124,7 +122,6 @@ export const useNearbyStore = create<NearbyStoreState>()(
           }),
           createdAtMs: Date.now(),
           items: validItems,
-          preferredShop: state.preferredShop,
           customer: { ...state.customer },
           location: { ...state.location },
           instructions: state.instructions,
@@ -139,7 +136,6 @@ export const useNearbyStore = create<NearbyStoreState>()(
           history: [order, ...(state.history || [])],
           activeRequestId: order.requestId,
           items: [],
-          preferredShop: '',
           instructions: '',
           radiusConfirmed: false,
         });

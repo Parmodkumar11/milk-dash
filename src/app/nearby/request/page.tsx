@@ -15,7 +15,7 @@ import type { MessageKey } from '@/lib/i18n';
 function NearbyRequestForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { items, preferredShop, addItem, addSuggestedItem, toggleSuggestedItem, updateItem, removeItem, setPreferredShop } =
+  const { items, addItem, addSuggestedItem, toggleSuggestedItem, updateItem, removeItem } =
     useNearbyStore();
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState('');
@@ -182,7 +182,7 @@ function NearbyRequestForm() {
         {items.length === 0 ? t('request.addCustom') : t('request.addAnother')}
       </button>
 
-      <div className="dd-card p-4 sm:p-5 mt-6">
+      {/* <div className="dd-card p-4 sm:p-5 mt-6">
         <label className="dd-label" htmlFor="preferredShop">{t('request.shopLabel')}</label>
         <p className="text-xs text-muted-fg mb-2">
           {t('request.shopHint')}
@@ -199,7 +199,7 @@ function NearbyRequestForm() {
         />
       </div>
 
-      {error && <p className="text-rose-500 text-sm font-bold mt-3">{error}</p>}
+      {error && <p className="text-rose-500 text-sm font-bold mt-3">{error}</p>} */}
 
       <button type="button" onClick={handleContinue} className="dd-btn-primary w-full mt-6">
         {t('request.continue')}

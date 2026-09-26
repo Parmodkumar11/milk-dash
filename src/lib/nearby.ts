@@ -9,12 +9,11 @@ export const NEARBY_DEFAULT_LAT = 30.7046;
 export const NEARBY_DEFAULT_LNG = 76.7179;
 
 export const NEARBY_SUGGESTIONS = [
-  'Lunch',
+  // 'Lunch',
   'Bread',
   'Eggs',
   'Medicines',
   'Bottled water',
-  'Snacks',
   'Soap',
   'Notebook',
   'Fruits',
@@ -36,3 +35,12 @@ export function parseEstimatedCost(value: string): number {
 export function sumEstimatedItems(costs: string[]): number {
   return costs.reduce((sum, cost) => sum + parseEstimatedCost(cost), 0);
 }
+
+
+export const calculateNearbyServiceFee = (
+  totalQuantity: number
+): number => {
+  const quantity = Math.max(1, totalQuantity);
+
+  return quantity * 5;
+};

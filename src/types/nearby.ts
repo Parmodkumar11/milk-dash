@@ -44,7 +44,6 @@ export interface NearbyOrder {
 
 export interface NearbyStoreState {
   items: NearbyItem[];
-  preferredShop: string;
   customer: NearbyCustomer;
   location: NearbyLocation;
   instructions: string;
@@ -52,7 +51,6 @@ export interface NearbyStoreState {
   history: NearbyOrder[];
   activeRequestId: string | null;
 
-  setPreferredShop: (shop: string) => void;
   setInstructions: (notes: string) => void;
   setRadiusConfirmed: (value: boolean) => void;
   addItem: () => void;

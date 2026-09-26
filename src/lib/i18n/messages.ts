@@ -65,7 +65,7 @@ export const en = {
   'suggest.Bottled water': 'Bottled water',
   'suggest.Snacks': 'Snacks',
   'suggest.Soap': 'Soap',
-  'suggest.Notebook': 'Notebook',
+  'suggest.Notebook': 'Stationery',
   'suggest.Fruits': 'Fruits',
 
   'splash.badge': 'Nearby shops · Phase 7, Mohali',
