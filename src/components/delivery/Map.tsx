@@ -198,7 +198,7 @@ export default function MapComponent({
       )}
 
       <div className="relative flex-1 rounded-2xl border border-border-custom overflow-hidden shadow-inner bg-surface h-[220px] md:h-full min-h-[220px]">
-        <div ref={mapContainerRef} className="absolute inset-0" />
+        <div ref={mapContainerRef} className="absolute inset-0 pointer-events-none opacity-60" />
       </div>
 
       {!readOnly && (
