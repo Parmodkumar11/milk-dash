@@ -17,6 +17,8 @@ export const NEARBY_SUGGESTIONS = [
   'Soap',
   'Notebook',
   'Fruits',
+  'Milk',
+  'Curd'
 ];
 
 export const NEARBY_STATUSES: { id: NearbyRequestStatus; label: string; detail: string }[] = [

@@ -67,6 +67,8 @@ export const en = {
   'suggest.Soap': 'Soap',
   'suggest.Notebook': 'Stationery',
   'suggest.Fruits': 'Fruits',
+  'suggest.Milk': 'Milk',
+  'suggest.Curd': 'Curd',
 
   'splash.badge': 'Nearby shops · Phase 7, Mohali',
   'splash.chips': 'Lunch · Groceries · 5 km',
@@ -335,6 +337,8 @@ export const hi: Record<MessageKey, string> = {
   'suggest.Soap': 'साबुन',
   'suggest.Notebook': 'कॉपी',
   'suggest.Fruits': 'फल',
+  'suggest.Milk': 'दूध',
+  'suggest.Curd': 'दही',
 
   'splash.badge': 'पास की दुकानें · फेज 7, मोहाली',
   'splash.chips': 'लंच · किराना · 5 किमी',
@@ -601,6 +605,8 @@ export const pa: Record<MessageKey, string> = {
   'suggest.Soap': 'ਸਾਬਣ',
   'suggest.Notebook': 'ਕਾਪੀ',
   'suggest.Fruits': 'ਫਲ',
+  'suggest.Milk': 'ਦੁੱਧ',
+  'suggest.Curd': 'ਦਹੀਂ',
 
   'splash.badge': 'ਨੇੜੇ ਦੀਆਂ ਦੁਕਾਨਾਂ · ਫੇਜ਼ 7, ਮੋਹਾਲੀ',
   'splash.chips': 'ਲੰਚ · ਕਿਰਾਣਾ · 5 ਕਿਮੀ',
