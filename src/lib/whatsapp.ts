@@ -83,12 +83,10 @@ export const generateNearbyWhatsAppUrl = (
     houseFlat: string;
     landmark: string;
   },
-  preferredShop: string,
   instructions: string,
   estimatedItemsTotal: number,
   procurementFee: number,
   deliveryFee: number,
-  estimatedTotal: number
 ): string => {
   const itemText = items
     .map((item, index) => {
@@ -117,8 +115,6 @@ export const generateNearbyWhatsAppUrl = (
 
 📦 *Items to buy*
 ${itemText}
-
-🏪 *Preferred shop:* ${preferredShop || 'Any nearby shop in Phase 7, Mohali'}
 
 🏡 *Delivery Address*
 • *Flat/House:* ${location.houseFlat}

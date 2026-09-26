@@ -182,7 +182,6 @@ export default function NearbyReviewPage() {
       order.items,
       order.customer,
       order.location,
-      order.preferredShop,
       order.instructions,
       order.estimatedItemsTotal,
       serviceFee,

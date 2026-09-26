@@ -31,7 +31,6 @@ export interface NearbyOrder {
   createdAt: string;
   createdAtMs: number;
   items: NearbyItem[];
-  preferredShop: string;
   customer: NearbyCustomer;
   location: NearbyLocation;
   instructions: string;
