@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MapPin, Navigation } from 'lucide-react';
-import { useI18n } from '@/components/common/LanguageProvider';
 
 interface MapComponentProps {
   latitude: number | null;
@@ -27,8 +26,6 @@ export default function MapComponent({
   const markerRef = useRef<L.Marker | null>(null);
   const [gpsError, setGpsError] = useState<string | null>(null);
   const [locating, setLocating] = useState<boolean>(false);
-  const { t } = useI18n();
-
   const currentLat = latitude || fallbackLatitude;
   const currentLng = longitude || fallbackLongitude;
 
@@ -41,7 +38,7 @@ export default function MapComponent({
       className: 'custom-leaflet-marker',
       html: `
         <div style="
-          background-color: #F0A500;
+          background-color: #0C831F;
           color: white;
           width: 40px;
           height: 40px;
@@ -53,7 +50,7 @@ export default function MapComponent({
           border: 3px solid #FFFFFF;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         ">
-          <div style="transform: rotate(45deg); font-size: 16px;">🥛</div>
+          <div style="transform: rotate(45deg); font-size: 14px; font-weight: 800;">●</div>
         </div>
       `,
       iconSize: [40, 40],
@@ -124,11 +121,11 @@ export default function MapComponent({
   const detectLocation = () => {
     if (readOnly || !onLocationSelect) return;
     if (typeof window !== 'undefined' && !window.isSecureContext) {
-      setGpsError(t('map.https'));
+      setGpsError('Location needs a secure connection (HTTPS).');
       return;
     }
     if (!navigator.geolocation) {
-      setGpsError(t('map.noGps'));
+      setGpsError('Geolocation is not supported on this device.');
       return;
     }
 
@@ -147,11 +144,11 @@ export default function MapComponent({
         (error) => {
           setLocating(false);
           if (error.code === error.PERMISSION_DENIED) {
-            setGpsError(t('map.blocked'));
+            setGpsError('Location permission denied. Allow location in browser settings.');
           } else if (error.code === error.TIMEOUT) {
-            setGpsError(t('map.timeout'));
+            setGpsError('Location timed out. Try again or place the pin manually.');
           } else {
-            setGpsError(t('map.fail'));
+            setGpsError('Could not detect location. Drag the pin on the map.');
           }
         },
         { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
@@ -163,7 +160,7 @@ export default function MapComponent({
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
           setLocating(false);
-          setGpsError(t('map.blocked'));
+          setGpsError('Location permission denied. Allow location in browser settings.');
           return;
         }
         tryAccurate();
@@ -177,7 +174,7 @@ export default function MapComponent({
       {!readOnly && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
           <span className="text-xs font-bold text-muted-fg uppercase tracking-wider flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5 text-primary" /> {t('map.pinpoint')}
+            <MapPin className="w-3.5 h-3.5 text-primary" /> Choose location on map
           </span>
           <button
             type="button"
@@ -186,7 +183,7 @@ export default function MapComponent({
             className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary/20 text-xs font-bold rounded-lg transition-colors disabled:opacity-50"
           >
             <Navigation className={`w-3.5 h-3.5 ${locating ? 'animate-spin' : ''}`} />
-            <span>{locating ? t('map.locating') : t('map.detect')}</span>
+            <span>{locating ? 'Detecting…' : 'Detect my location'}</span>
           </button>
         </div>
       )}
@@ -198,12 +195,12 @@ export default function MapComponent({
       )}
 
       <div className="relative flex-1 rounded-2xl border border-border-custom overflow-hidden shadow-inner bg-surface h-[220px] md:h-full min-h-[220px]">
-        <div ref={mapContainerRef} className="absolute inset-0 pointer-events-none opacity-60" />
+        <div ref={mapContainerRef} className="absolute inset-0 z-0" />
       </div>
 
       {!readOnly && (
         <p className="text-[11px] text-muted-fg mt-2 italic text-center sm:text-left">
-          {t('map.drag')}
+          Drag the pin or tap the map to set your delivery point.
         </p>
       )}
     </div>

@@ -1,32 +1,19 @@
-import { milkProducts } from '@/data/products';
-import { dryFruits } from '@/data/dry-fruits';
+import { SERVICE_CHARGE_PER_TWO_ITEMS } from '@/lib/delivery';
+import type { CartLine } from '@/types/order';
 
-export const calculateItemPrice = (
-  milkType: 'hot' | 'cold',
-  quantityMl: number,
-  selectedDryFruits: string[]
-): number => {
-  const product = milkProducts.find((p) => p.id === milkType);
-  if (!product) return 0;
+export { SERVICE_CHARGE_PER_TWO_ITEMS };
 
-  // 1. Calculate milk price based on quantity
-  let milkPrice = 0;
-  const preset = product.presets.find((p) => p.ml === quantityMl);
-  
-  if (preset) {
-    milkPrice = preset.price;
-  } else {
-    milkPrice = Math.round(product.pricePerMl * quantityMl);
-  }
+/** Distinct products/lines in cart (not kg/L/piece totals). */
+export function cartItemCount(lines: CartLine[]): number {
+  return lines.length;
+}
 
-  // 2. Add dry fruits surcharges
-  let dryFruitsSurcharge = 0;
-  selectedDryFruits.forEach((dfId) => {
-    const option = dryFruits.find((df) => df.id === dfId);
-    if (option) {
-      dryFruitsSurcharge += option.price;
-    }
-  });
+export function uniqueLineCount(lines: CartLine[]): number {
+  return lines.length;
+}
 
-  return milkPrice + dryFruitsSurcharge;
-};
+export function serviceChargeInr(lines: CartLine[]): number {
+  const n = uniqueLineCount(lines);
+  if (n === 0) return 0;
+  return SERVICE_CHARGE_PER_TWO_ITEMS * Math.ceil(n / 2);
+}

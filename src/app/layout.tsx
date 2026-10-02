@@ -6,30 +6,29 @@ import BottomTabBar from '@/components/common/BottomTabBar';
 import SplashScreen from '@/components/common/SplashScreen';
 import ThemeProvider from '@/components/common/ThemeProvider';
 import LanguageProvider from '@/components/common/LanguageProvider';
+import ServiceLocationProvider from '@/components/common/ServiceLocationProvider';
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#E23744',
+  themeColor: '#F8CB46',
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://milk-app-ten.vercel.app'),
   title: {
-    default: 'HopInMohali — Get anything from a nearby shop',
+    default: 'HopInMohali — Phase 7 evening delivery',
     template: '%s | HopInMohali',
   },
   description:
-    'HopInMohali fetches lunch, groceries, medicines and more from nearby shops in Phase 7, Mohali — delivered within about 5 km. Fresh milk coming soon.',
+    'Order from nearby shops in Phase 7, Mohali. ₹10 per 2 items service charge. Browse quick picks or tell us exactly what you need.',
   keywords: [
     'HopInMohali',
-    'HopIn',
     'Mohali delivery',
     'Phase 7 Mohali',
-    'nearby shop delivery',
-    'lunch delivery Mohali',
-    'grocery fetch',
+    'evening delivery',
+    'local shop delivery',
   ],
   authors: [{ name: 'HopInMohali' }],
   creator: 'HopInMohali',
@@ -43,9 +42,8 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://milk-app-ten.vercel.app',
     siteName: 'HopInMohali',
-    title: 'HopInMohali — Get anything from a nearby shop',
-    description:
-      'Lunch, groceries, medicines from nearby shops in Phase 7, Mohali. Delivered within about 5 km.',
+    title: 'HopInMohali — Phase 7 evening delivery',
+    description: '₹10 per 2 items · Phase 7, Mohali only.',
     images: [
       {
         url: '/logo.svg',
@@ -55,20 +53,9 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary',
-    title: 'HopInMohali — Get anything from a nearby shop',
-    description:
-      'Lunch, groceries, medicines from nearby shops in Phase 7, Mohali. Delivered within about 5 km.',
-    images: ['/logo.svg'],
-  },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
   },
 };
 
@@ -78,20 +65,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className="antialiased"
-    >
+    <html lang="en" className="antialiased">
       <body className="bg-background text-foreground min-h-screen flex flex-col font-sans">
         <ThemeProvider>
           <LanguageProvider>
+            <ServiceLocationProvider>
             <SplashScreen />
             <Navbar />
-            <main className="w-full flex-1 md:pb-8">
-              {children}
-            </main>
+            <main className="w-full flex-1 md:pb-8">{children}</main>
             <BottomTabBar />
             <Footer />
+            </ServiceLocationProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

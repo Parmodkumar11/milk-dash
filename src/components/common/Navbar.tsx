@@ -4,145 +4,109 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cart-store';
-import { ShoppingCart, Flame, MapPin, CheckSquare, ChevronRight, User, Sun, Moon, Store, ClipboardList } from 'lucide-react';
+import { ShoppingCart, User, Sun, Moon, MapPin } from 'lucide-react';
 import { useTheme } from '@/components/common/ThemeProvider';
-import { MILK_ENABLED } from '@/lib/features';
 import BrandLogo from '@/components/common/BrandLogo';
-import LanguageSwitcher from '@/components/common/LanguageSwitcher';
-import { useI18n } from '@/components/common/LanguageProvider';
+import { cartItemCount } from '@/lib/pricing';
+import { SERVICE_AREA_LABEL } from '@/lib/delivery';
+import { serviceHoursSummary } from '@/lib/sessions';
+import { useLocale } from '@/components/common/LanguageProvider';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { items, customer } = useCartStore();
+  const items = useCartStore((s) => s.items);
+  const customer = useCartStore((s) => s.customer);
   const { theme, toggleTheme } = useTheme();
-  const { t } = useI18n();
+  const { locale, setLocale, ready: localeReady } = useLocale();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const totalItemsCount = mounted ? items.reduce((sum, item) => sum + 1, 0) : 0;
-  const totalPrice = mounted ? items.reduce((sum, item) => sum + item.price, 0) : 0;
-
+  const count = mounted ? cartItemCount(items) : 0;
   const isActive = (path: string) => pathname === path;
-
-  const milkSteps = [
-    { name: t('nav.order'), path: '/order', icon: Flame },
-    { name: t('nav.cart'), path: '/cart', icon: ShoppingCart },
-    { name: t('nav.delivery'), path: '/delivery', icon: MapPin },
-    { name: t('nav.checkout'), path: '/checkout', icon: CheckSquare },
-  ];
-
-  const nearbySteps = [
-    { name: t('nav.nearby'), path: '/nearby', icon: Store },
-    { name: t('nav.request'), path: '/nearby/request', icon: ClipboardList },
-    { name: t('nav.location'), path: '/nearby/location', icon: MapPin },
-    { name: t('nav.review'), path: '/nearby/review', icon: CheckSquare },
-  ];
-
-  const nearbyFlow = pathname.startsWith('/nearby') || !MILK_ENABLED;
-  const steps = nearbyFlow ? nearbySteps : milkSteps;
+  const onHome = pathname === '/';
 
   return (
-    <header className="sticky top-0 z-[70] border-b border-border-custom bg-surface/85 backdrop-blur-xl">
+    <header className={`sticky top-0 z-[70] ${onHome ? 'dd-header-yellow' : 'bg-card-bg border-b border-border-custom'}`}>
       <div className="max-w-6xl mx-auto px-3 sm:px-6">
-        <div className="flex justify-between items-center h-14 sm:h-[4.25rem] gap-2">
+        <div className="flex justify-between items-center h-14 gap-2">
           <Link href="/" className="min-w-0 shrink" aria-label="HopInMohali home">
-            <BrandLogo size="md" />
+            <BrandLogo size="md" onYellow={onHome} />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 text-sm font-medium min-w-0" aria-label={t('nav.steps')}>
-            {steps.map((step, idx) => {
-              const Icon = step.icon;
-              const active = isActive(step.path);
-              return (
-                <React.Fragment key={step.path}>
-                  <Link
-                    href={step.path}
-                    className={`flex items-center gap-1.5 px-2.5 lg:px-3.5 py-2 rounded-full transition-colors ${
-                      nearbyFlow
-                        ? pathname === step.path || (step.path !== '/nearby' && pathname.startsWith(step.path))
-                          ? 'bg-primary text-white font-semibold shadow-sm'
-                          : 'text-muted-fg hover:text-foreground hover:bg-muted'
-                        : active
-                          ? 'bg-primary text-white font-semibold shadow-sm'
-                          : 'text-muted-fg hover:text-foreground hover:bg-muted'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="hidden lg:inline">{step.name}</span>
-                  </Link>
-                  {idx < steps.length - 1 && (
-                    <ChevronRight className="w-4 h-4 text-foreground/25 hidden lg:block" />
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </nav>
+          <div
+            className={`flex items-center gap-1.5 text-[10px] sm:text-xs font-bold max-w-[11rem] sm:max-w-[14rem] truncate min-w-0 ${
+              onHome ? 'text-ink' : 'text-muted-fg'
+            }`}
+          >
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate leading-tight">
+              {SERVICE_AREA_LABEL}
+              <span className="hidden sm:inline"> · {serviceHoursSummary()}</span>
+            </span>
+          </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <LanguageSwitcher />
-            <Link
-              href="/nearby"
-              title={t('nav.getNearby')}
-              className={`hidden md:flex rounded-full border items-center gap-1.5 px-2.5 sm:px-3 h-10 text-xs font-bold transition-all ${
-                nearbyFlow
-                  ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border-custom bg-card-bg text-foreground hover:border-primary/50'
-              }`}
-            >
-              <Store className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('nav.nearby')}</span>
-            </Link>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {localeReady ? (
+              <div className="flex rounded-lg border border-black/10 overflow-hidden text-[10px] font-extrabold">
+                <button
+                  type="button"
+                  onClick={() => setLocale('en')}
+                  className={`px-2 py-1.5 ${locale === 'en' ? 'bg-brand-yellow text-ink' : 'bg-white/60 text-ink/70'}`}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLocale('hi')}
+                  className={`px-2 py-1.5 ${locale === 'hi' ? 'bg-brand-yellow text-ink' : 'bg-white/60 text-ink/70'}`}
+                >
+                  हिं
+                </button>
+              </div>
+            ) : null}
             <button
               type="button"
               onClick={toggleTheme}
-              title={theme === 'dark' ? t('nav.themeLight') : t('nav.themeDark')}
-              className="rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
+              title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+              className="rounded-lg border border-black/10 bg-white/50 hover:bg-white/80 transition-all flex items-center justify-center w-9 h-9"
               aria-label="Toggle dark mode"
             >
               {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400" />
+                <Sun className="w-4 h-4 text-amber-500" />
               ) : (
-                <Moon className="w-4 h-4 text-muted-fg" />
+                <Moon className="w-4 h-4 text-ink/70" />
               )}
             </button>
 
             <Link
-              href="/profile"
-              className={`rounded-full border border-border-custom bg-card-bg hover:border-primary/50 transition-all shadow-xs flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 ${
-                isActive('/profile') ? 'border-primary ring-2 ring-primary/20' : ''
-              }`}
-              title={t('nav.profile')}
-            >
-              <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-gold text-white flex items-center justify-center text-xs font-black">
-                {mounted && customer.name ? customer.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
-              </div>
-            </Link>
-
-            {MILK_ENABLED && (
-            <Link
               href="/cart"
-              className={`hidden md:flex relative items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-200 ${
-                isActive('/cart')
-                  ? 'bg-foreground text-background border-foreground'
-                  : 'border-border-custom bg-card-bg hover:bg-foreground hover:text-background hover:border-foreground'
+              className={`relative rounded-lg border border-black/10 bg-white/60 hover:bg-white flex items-center justify-center gap-1.5 px-2.5 h-9 ${
+                isActive('/cart') ? 'ring-2 ring-accent-green/40' : ''
               }`}
+              title="Cart"
             >
               <ShoppingCart className="w-4 h-4" />
-              {mounted && totalItemsCount > 0 && (
-                <>
-                  <span className="hidden sm:inline text-xs font-semibold">
-                    ₹{totalPrice}
-                  </span>
-                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                    {totalItemsCount}
-                  </span>
-                </>
-              )}
+              {mounted && count > 0 ? (
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-accent-green text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {count}
+                </span>
+              ) : null}
             </Link>
-            )}
+
+            <Link
+              href="/profile"
+              className={`rounded-lg border border-black/10 bg-white/60 hover:bg-white flex items-center justify-center w-9 h-9 ${
+                isActive('/profile') ? 'ring-2 ring-accent-green/40' : ''
+              }`}
+              title="Profile"
+            >
+              <div className="w-7 h-7 rounded-full bg-accent-green text-white flex items-center justify-center text-xs font-black">
+                {mounted && customer.name ? customer.name.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
+              </div>
+            </Link>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { ArrowLeft, ShieldCheck } from 'lucide-react';
 import PageBanner from '@/components/common/PageBanner';
 import { IMAGES } from '@/lib/images';
 import { APP_NAME, APP_CITY } from '@/lib/brand';
-import { NEARBY_AREA_NAME, NEARBY_RADIUS_KM } from '@/lib/nearby';
+import { SERVICE_AREA_LABEL } from '@/lib/delivery';
 
 export default function PrivacyPolicyPage() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function PrivacyPolicyPage() {
 
       <div className="dd-card p-6 sm:p-8 space-y-6 text-sm text-foreground/80 leading-relaxed">
         <p className="font-medium text-foreground">
-          {APP_NAME} (“we”, “us”) helps you get items from nearby shops in {NEARBY_AREA_NAME} and around {APP_CITY}, and may later offer fresh milk delivery. This Privacy Policy explains what information we collect, why we collect it, and how we protect it when you use our website or send a request.
+          {APP_NAME} (“we”, “us”) helps you get items from nearby shops in {SERVICE_AREA_LABEL}, {APP_CITY}. This Privacy Policy explains what information we collect, why we collect it, and how we protect it when you use our website or send an order.
         </p>
         <p className="text-sm dd-surface p-3.5 text-muted-fg italic">
           We only collect what we need to shop for you, deliver to you, and confirm your request. We do not sell your personal information.
@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-foreground mb-2">1. Who this policy covers</h2>
             <p className="text-sm text-foreground/75">
-              This policy applies to people who use the {APP_NAME} website, place a nearby-shop request, save a profile, or contact us on WhatsApp or phone. Fresh milk ordering is currently listed as coming soon. If milk ordering is enabled later, the same types of information will be used to complete those orders.
+              This policy applies to people who use the {APP_NAME} website, place an order, save a profile, or contact us on WhatsApp or phone.
             </p>
           </section>
 
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-foreground mb-2">3. Location information</h2>
             <p className="text-sm text-foreground/75">
-              Nearby delivery is limited to about {NEARBY_RADIUS_KM} km around {NEARBY_AREA_NAME}. We use the pin you place (and, if you tap locate, your browser’s location) so a shopper can reach the right room or building. Location is used only for delivery and request confirmation. You can refuse browser location and still type an address and drop a pin yourself.
+              Delivery is limited to {SERVICE_AREA_LABEL}. We use the pin you place (and, if you tap locate, your browser’s location) so we can reach the right room or building. Location is used only for delivery and order confirmation. You can refuse browser location and still type an address and drop a pin yourself.
             </p>
           </section>
 
@@ -103,7 +103,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-foreground mb-2">7. Payments</h2>
             <p className="text-sm text-foreground/75">
-              Nearby items are billed at the shop’s actual price, plus stated procurement and delivery charges. If you pay online later, a third-party payment provider may process UPI or card details. We do not intend to store your full card, UPI PIN, or bank password on this website.
+              Items are billed at the shop’s actual price, plus a ₹10 delivery/service charge per 2 different items in your cart. MVP orders are placed via WhatsApp with no online payment on this website.
             </p>
           </section>
 

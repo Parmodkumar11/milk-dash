@@ -1,10 +1,24 @@
-export interface CartItem {
-  id: string;
-  milkType: 'hot' | 'cold';
-  quantityMl: number;
-  dryFruits: string[];
-  price: number;
-}
+import type { FilterCategoryId } from '@/data/filter-categories';
+
+export type CartLine =
+  | {
+      kind: 'catalog';
+      id: string;
+      productId: string;
+      name: string;
+      nameHi?: string;
+      categoryId: FilterCategoryId;
+      quantity: number;
+    }
+  | {
+      kind: 'custom';
+      id: string;
+      name: string;
+      quantity: number;
+      note: string;
+      categoryId: FilterCategoryId;
+      source?: 'search' | 'other' | 'global';
+    };
 
 export interface CustomerDetails {
   name: string;
@@ -19,39 +33,37 @@ export interface DeliveryLocation {
   landmark: string;
 }
 
-export interface PastOrder {
-  orderId: string;
-  createdAt: string;
-  items: CartItem[];
-  subtotal: number;
-  deliveryFee: number;
-  codFee: number;
-  total: number;
-  paymentMethod: 'online' | 'cod';
-  status: 'Submitted via WhatsApp';
-}
+export type DeliveryTiming = 'asap' | 'scheduled';
 
 export interface CartStoreState {
-  items: CartItem[];
+  items: CartLine[];
   customer: CustomerDetails;
   deliveryLocation: DeliveryLocation;
   notes: string;
-  orderHistory: PastOrder[];
-  paymentMethod: 'online' | 'cod';
-  
-  // Actions
-  addItem: (item: Omit<CartItem, 'id' | 'price'>) => void;
+  deliveryTiming: DeliveryTiming;
+  scheduledAt: string | null;
+
+  addCatalogItem: (product: {
+    productId: string;
+    name: string;
+    nameHi?: string;
+    categoryId: FilterCategoryId;
+    quantity?: number;
+  }) => string | null;
+  addCustomItem: (item: {
+    name: string;
+    note?: string;
+    categoryId: FilterCategoryId;
+    quantity?: number;
+    source?: 'search' | 'other' | 'global';
+  }) => void;
   removeItem: (id: string) => void;
-  updateItemQuantity: (id: string, quantityMl: number) => void;
-  updateItemCustomization: (id: string, dryFruits: string[]) => void;
+  setLineQuantity: (id: string, quantity: number) => string | null;
   clearCart: () => void;
-  saveCompletedOrder: () => void;
-  setPaymentMethod: (method: 'online' | 'cod') => void;
-  
+
   updateCustomer: (customer: Partial<CustomerDetails>) => void;
   updateDeliveryLocation: (location: Partial<DeliveryLocation>) => void;
   updateNotes: (notes: string) => void;
-
-  deliveryFee: number;
-  codFee: number;
+  setDeliveryTiming: (timing: DeliveryTiming) => void;
+  setScheduledAt: (iso: string | null) => void;
 }

@@ -4,8 +4,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { getNextHopCopy, getTodaySession } from '@/lib/sessions';
-import { useI18n } from '@/components/common/LanguageProvider';
-import type { MessageKey } from '@/lib/i18n';
 
 const FUNNY_GIFS = [
   { src: '/gifs/nope.png', alt: 'Nope, not yet' },
@@ -14,9 +12,9 @@ const FUNNY_GIFS = [
 ] as const;
 
 const FUNNY_LINES = [
-  { title: 'Too early to hop.', body: 'The kitchen is still stretching. Come back when the session actually starts.' },
-  { title: 'Hold that order.', body: 'WhatsApp is closed until hop time. We would only send you a sleepy shrug.' },
-  { title: 'Nice try, early bird.', body: 'We love the energy. We do not hop before the schedule, though.' },
+  { title: 'Too early to hop.', body: 'Weekdays: 7 PM–12 AM. Weekends: 24 hours. Or schedule for a valid slot.' },
+  { title: 'Hold that order.', body: 'WhatsApp orders open at 7 PM IST.' },
+  { title: 'Nice try, early bird.', body: 'We love the energy — orders start at 7 PM.' },
 ] as const;
 
 export default function SessionClosedModal({
@@ -26,7 +24,6 @@ export default function SessionClosedModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const { t } = useI18n();
   const [mounted, setMounted] = useState(false);
   const nextHop = getNextHopCopy();
   const session = getTodaySession();
@@ -69,7 +66,7 @@ export default function SessionClosedModal({
       <button
         type="button"
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        aria-label={t('closed.close')}
+        aria-label="Close"
         onClick={onClose}
       />
       <div className="relative z-10 bg-card-bg rounded-t-[1.6rem] sm:rounded-[1.6rem] w-full max-w-md overflow-hidden animate-slide-up sm:animate-none border border-border-custom shadow-[var(--shadow-soft)]">
@@ -83,7 +80,7 @@ export default function SessionClosedModal({
             type="button"
             onClick={onClose}
             className="absolute top-3 right-3 p-2 rounded-full bg-black/45 text-white hover:bg-black/60"
-            aria-label={t('closed.close')}
+            aria-label="Close"
           >
             <X className="w-4 h-4" />
           </button>
@@ -91,29 +88,22 @@ export default function SessionClosedModal({
 
         <div className="p-5 sm:p-6 space-y-4">
           <div>
-            <p className="dd-chip bg-primary/8 text-primary mb-2">{t('closed.chip')}</p>
+            <p className="dd-chip bg-primary/8 text-primary mb-2">Outside service hours</p>
             <h3 id="session-closed-title" className="font-display text-2xl font-semibold text-foreground leading-tight">
-              {t(`closed.line${(FUNNY_LINES.indexOf(line) + 1) as 1 | 2 | 3}Title` as MessageKey)}
+              {line.title}
             </h3>
-            <p className="text-sm text-muted-fg mt-2 leading-relaxed">
-              {t(`closed.line${(FUNNY_LINES.indexOf(line) + 1) as 1 | 2 | 3}Body` as MessageKey)}
-            </p>
+            <p className="text-sm text-muted-fg mt-2 leading-relaxed">{line.body}</p>
           </div>
 
           <div className="dd-surface p-3.5 text-sm">
             <p className="font-bold text-foreground">
-              {nextHop ? t('closed.next', { time: nextHop.time }) : t('closed.fallback')}
+              {nextHop ? `We open again at ${nextHop.time} IST.` : 'Sat–Sun: 24h · Mon–Fri: 7 PM–12 AM.'}
             </p>
-            <p className="text-muted-fg mt-1">
-              {t('closed.today', {
-                name: t(`day.${session.weekday}` as MessageKey),
-                label: session.allDay ? t('day.24h') : t('day.evening'),
-              })}
-            </p>
+            <p className="text-muted-fg mt-1">Today&apos;s window: {session.label}</p>
           </div>
 
           <button type="button" onClick={onClose} className="dd-btn-primary w-full">
-            {t('closed.ok')}
+            OK
           </button>
         </div>
       </div>
