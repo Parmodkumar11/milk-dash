@@ -35,7 +35,7 @@ export default function SessionHours({ compact = false }: { compact?: boolean })
         <span
           className={`dd-chip shrink-0 ${
             status.open
-              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
+              ? 'bg-emerald-100 text-emerald-800'
               : 'bg-muted text-muted-fg'
           }`}
         >

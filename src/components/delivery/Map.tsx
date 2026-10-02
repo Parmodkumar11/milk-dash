@@ -189,7 +189,7 @@ export default function MapComponent({
       )}
 
       {gpsError && !readOnly && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs px-3 py-2 rounded-lg mb-3 dark:bg-amber-950/40 dark:border-amber-900 dark:text-amber-200">
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs px-3 py-2 rounded-lg mb-3">
           {gpsError}
         </div>
       )}

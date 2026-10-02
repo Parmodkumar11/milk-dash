@@ -4,7 +4,6 @@ import Navbar from '@/components/common/Navbar';
 import Footer from '@/components/common/Footer';
 import BottomTabBar from '@/components/common/BottomTabBar';
 import SplashScreen from '@/components/common/SplashScreen';
-import ThemeProvider from '@/components/common/ThemeProvider';
 import LanguageProvider from '@/components/common/LanguageProvider';
 import ServiceLocationProvider from '@/components/common/ServiceLocationProvider';
 
@@ -67,17 +66,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className="bg-background text-foreground min-h-screen flex flex-col font-sans">
-        <ThemeProvider>
-          <LanguageProvider>
-            <ServiceLocationProvider>
+        <LanguageProvider>
+          <ServiceLocationProvider>
             <SplashScreen />
             <Navbar />
             <main className="w-full flex-1 md:pb-8">{children}</main>
             <BottomTabBar />
             <Footer />
-            </ServiceLocationProvider>
-          </LanguageProvider>
-        </ThemeProvider>
+          </ServiceLocationProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

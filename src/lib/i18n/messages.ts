@@ -17,8 +17,6 @@ export const en = {
   'nav.checkout': 'Checkout',
   'nav.home': 'Home',
   'nav.profile': 'My profile',
-  'nav.themeLight': 'Switch to light mode',
-  'nav.themeDark': 'Switch to dark mode',
   'nav.steps': 'Order steps',
   'nav.getNearby': 'Get Anything Nearby',
 
@@ -287,8 +285,6 @@ export const hi: Record<MessageKey, string> = {
   'nav.checkout': 'चेकआउट',
   'nav.home': 'होम',
   'nav.profile': 'मेरी प्रोफ़ाइल',
-  'nav.themeLight': 'लाइट मोड चालू करें',
-  'nav.themeDark': 'डार्क मोड चालू करें',
   'nav.steps': 'ऑर्डर चरण',
   'nav.getNearby': 'आस-पास से मंगवाएँ',
 
@@ -555,8 +551,6 @@ export const pa: Record<MessageKey, string> = {
   'nav.checkout': 'ਚੈੱਕਆਊਟ',
   'nav.home': 'ਘਰ',
   'nav.profile': 'ਮੇਰੀ ਪ੍ਰੋਫਾਈਲ',
-  'nav.themeLight': 'ਲਾਈਟ ਮੋਡ ਚਾਲੂ ਕਰੋ',
-  'nav.themeDark': 'ਡਾਰਕ ਮੋਡ ਚਾਲੂ ਕਰੋ',
   'nav.steps': 'ਆਰਡਰ ਪੜਾਅ',
   'nav.getNearby': 'ਨੇੜੇ ਤੋਂ ਮੰਗਵਾਓ',
 

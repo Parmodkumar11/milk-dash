@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cart-store';
-import { ShoppingCart, User, Sun, Moon, MapPin } from 'lucide-react';
-import { useTheme } from '@/components/common/ThemeProvider';
+import { ShoppingCart, User, MapPin } from 'lucide-react';
 import BrandLogo from '@/components/common/BrandLogo';
 import { cartItemCount } from '@/lib/pricing';
 import { SERVICE_AREA_LABEL } from '@/lib/delivery';
@@ -16,7 +15,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const items = useCartStore((s) => s.items);
   const customer = useCartStore((s) => s.customer);
-  const { theme, toggleTheme } = useTheme();
   const { locale, setLocale, ready: localeReady } = useLocale();
   const [mounted, setMounted] = useState(false);
 
@@ -67,20 +65,6 @@ export default function Navbar() {
                 </button>
               </div>
             ) : null}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              className="rounded-lg border border-black/10 bg-white/50 hover:bg-white/80 transition-all flex items-center justify-center w-9 h-9"
-              aria-label="Toggle dark mode"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-500" />
-              ) : (
-                <Moon className="w-4 h-4 text-ink/70" />
-              )}
-            </button>
-
             <Link
               href="/cart"
               className={`relative rounded-lg border border-black/10 bg-white/60 hover:bg-white flex items-center justify-center gap-1.5 px-2.5 h-9 ${

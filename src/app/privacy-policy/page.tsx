@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
               <li>Map pin and GPS coordinates if you allow location access or drop a pin on the map</li>
               <li>Item list, quantities, notes, preferred shop, and any cost estimates you enter</li>
               <li>Profile details and request / order history stored on your device</li>
-              <li>Theme preference and splash-screen status stored on your device</li>
+              <li>Splash-screen status and language preference stored on your device</li>
               <li>Any extra details you send us while chatting on WhatsApp or phone</li>
             </ul>
           </section>
@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
               When you confirm a request, your browser may open WhatsApp with a pre-filled message that includes your name, phone, address, map link, item list, and fee estimate. That message is sent by you to our WhatsApp number so we can process the request.
             </p>
             <p className="text-sm text-foreground/75">
-              Request drafts, profile details, cart data (for milk, when enabled), and display theme may be saved in your browser (local storage). This stays on your device unless you clear site data. We do not run a separate customer database on this website for those drafts.
+              Request drafts, profile details, and cart data (for milk, when enabled) may be saved in your browser (local storage). This stays on your device unless you clear site data. We do not run a separate customer database on this website for those drafts.
             </p>
           </section>
 
@@ -110,7 +110,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-foreground mb-2">8. Cookies and similar technologies</h2>
             <p className="text-sm text-foreground/75">
-              We may use basic cookies or local storage so the site remembers your theme, your draft request, and that you have seen the splash screen. We do not use this for unnecessary advertising.
+              We may use basic cookies or local storage so the site remembers your language, your draft request, and that you have seen the splash screen. We do not use this for unnecessary advertising.
             </p>
           </section>
 

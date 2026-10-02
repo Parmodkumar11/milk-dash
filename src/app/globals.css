@@ -6,8 +6,6 @@
 @import "@fontsource/plus-jakarta-sans/700.css";
 @import "@fontsource/plus-jakarta-sans/800.css";
 
-@variant dark (&:where(.dark, .dark *));
-
 :root {
   --brand-yellow: #F8CB46;
   --brand-yellow-dark: #E8B830;
@@ -29,26 +27,6 @@
   --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
   --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.08);
   --shadow-float: 0 12px 32px rgba(12, 131, 31, 0.18);
-}
-
-.dark {
-  --brand-yellow: #F8CB46;
-  --brand-yellow-dark: #E8B830;
-  --accent-green: #3DD68C;
-  --accent-green-hover: #2BC47A;
-  --background: #121212;
-  --foreground: #F5F5F5;
-  --card-bg: #1E1E1E;
-  --surface: #1A1A1A;
-  --primary: #3DD68C;
-  --primary-hover: #2BC47A;
-  --border-color: #2E2E2E;
-  --muted: #252525;
-  --muted-fg: #A0A0A0;
-  --ink: #0A0A0A;
-  --on-ink: #FFFFFF;
-  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.35);
-  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 @theme inline {
