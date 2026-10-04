@@ -29,7 +29,6 @@ export const FILTER_CATEGORIES: FilterCategory[] = [
   { id: 'dry-fruits', label: 'Dry Fruits' },
   { id: 'personal-care', label: 'Personal Care' },
   { id: 'household', label: 'Household' },
-  { id: 'medical', label: 'Medical' },
   { id: 'others', label: 'Others' },
 ];
 

@@ -9,6 +9,7 @@ import {
   getFilterLabel,
   type FilterCategoryId,
 } from '@/data/filter-categories';
+import CategoryCarousel from '@/components/shop/CategoryCarousel';
 import { REQUEST_CATALOG } from '@/data/request-catalog';
 import {
   filterByCategory,
@@ -16,14 +17,15 @@ import {
   searchProducts,
 } from '@/lib/catalog-search';
 import ProductGrid from '@/components/shop/ProductGrid';
-import ProductCard from '@/components/shop/ProductCard';
+import ProductCarousel from '@/components/shop/ProductCarousel';
+import PromoBanners from '@/components/shop/PromoBanners';
 import CartSummaryBar from '@/components/shop/CartSummaryBar';
 import RequestItemSheet from '@/components/shop/RequestItemSheet';
 import ServiceAreaBanner from '@/components/shop/ServiceAreaBanner';
 import SearchBar from '@/components/shop/SearchBar';
 import { useCartStore } from '@/store/cart-store';
 
-const SECTION_PREVIEW = 8;
+const SECTION_PREVIEW = 16;
 
 function parseCategory(param: string | null): FilterCategoryId | 'all' {
   if (!param || param === 'all') return 'all';
@@ -96,7 +98,7 @@ export default function ShopHome() {
 
   return (
     <div className="pb-32">
-      <div className="dd-page max-w-6xl mx-auto pt-3 space-y-4">
+      <div className="dd-page w-full pt-3 space-y-4">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <ServiceAreaBanner />
           <div className="flex items-center gap-1.5 shrink-0">
@@ -128,24 +130,8 @@ export default function ShopHome() {
           }
         />
 
-        <div ref={gridRef} className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-hide">
-          {FILTER_CATEGORIES.map((chip) => {
-            const active = category === chip.id;
-            return (
-              <button
-                key={chip.id}
-                type="button"
-                onClick={() => handleCategoryClick(chip.id)}
-                className={`shrink-0 px-3.5 py-2 rounded-lg text-sm font-bold transition-all ${
-                  active
-                    ? 'bg-brand-yellow text-ink shadow-sm chip-active'
-                    : 'bg-card-bg border border-border-custom text-muted-fg hover:border-brand-yellow/50'
-                }`}
-              >
-                {chip.label}
-              </button>
-            );
-          })}
+        <div ref={gridRef}>
+          <CategoryCarousel active={category} onChange={handleCategoryClick} />
         </div>
 
         {showMedicalNote ? (
@@ -175,6 +161,7 @@ export default function ShopHome() {
           </div>
         ) : showSections ? (
           <div className="space-y-8">
+            <PromoBanners onCategorySelect={(cat) => handleCategoryClick(cat as FilterCategoryId | 'all')} />
             {HOME_SECTION_CATEGORIES.map((catId) => {
               const sectionItems = filterByCategory(REQUEST_CATALOG, catId).slice(
                 0,
@@ -193,11 +180,7 @@ export default function ShopHome() {
                       View all
                     </button>
                   </div>
-                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
-                    {sectionItems.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))}
-                  </div>
+                  <ProductCarousel products={sectionItems} priorityCount={catId === HOME_SECTION_CATEGORIES[0] ? 3 : 0} />
                 </section>
               );
             })}

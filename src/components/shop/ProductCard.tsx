@@ -18,9 +18,10 @@ import QuantityControl from '@/components/shop/QuantityControl';
 
 type Props = {
   product: RequestProduct;
+  priority?: boolean;
 };
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, priority }: Props) {
   const { locale } = useLocale();
   const items = useCartStore((s) => s.items);
   const addCatalogItem = useCartStore((s) => s.addCatalogItem);
@@ -28,8 +29,9 @@ export default function ProductCard({ product }: Props) {
   const removeItem = useCartStore((s) => s.removeItem);
   const [addedFlash, setAddedFlash] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [imgSrc, setImgSrc] = useState(productImageCandidates(product)[0]);
-  const candidates = productImageCandidates(product);
+  const [imgIdx, setImgIdx] = useState(0);
+  const candidates = useMemo(() => productImageCandidates(product), [product]);
+  const [imgSrc, setImgSrc] = useState(candidates[0]);
 
   const unitConfig = useMemo(
     () => unitConfigForProduct(product.name, product.categoryId),
@@ -63,9 +65,11 @@ export default function ProductCard({ product }: Props) {
   };
 
   const onImgError = () => {
-    const idx = candidates.indexOf(imgSrc);
-    const next = candidates[idx + 1];
-    if (next) setImgSrc(next);
+    setImgIdx((prev) => {
+      const next = prev + 1;
+      if (candidates[next]) setImgSrc(candidates[next]);
+      return next;
+    });
   };
 
   return (
@@ -78,6 +82,8 @@ export default function ProductCard({ product }: Props) {
           sizes="(max-width: 640px) 33vw, 20vw"
           className="object-cover"
           onError={onImgError}
+          priority={priority}
+          loading={priority ? 'eager' : 'lazy'}
         />
       </div>
       <div className="p-2 flex flex-col flex-1 gap-1.5">

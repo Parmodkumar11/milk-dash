@@ -114,7 +114,7 @@ export default function SearchBar({
       : 'Search atta, doodh, lays…';
 
   return (
-    <div ref={wrapRef} className="space-y-1">
+    <div ref={wrapRef} className="relative">
       <div
         className={`relative transition-shadow rounded-xl border ${
           focused ? 'border-accent-green shadow-md ring-2 ring-accent-green/20' : 'border-border-custom'
@@ -199,7 +199,6 @@ export default function SearchBar({
           </ul>
         ) : null}
       </div>
-      <p className="text-[11px] text-muted-fg px-1">{hint}</p>
     </div>
   );
 }

@@ -35,12 +35,12 @@ export default function Navbar() {
           </Link>
 
           <div
-            className={`flex items-center gap-1.5 text-[10px] sm:text-xs font-bold max-w-[11rem] sm:max-w-[14rem] truncate min-w-0 ${
+            className={`flex items-center gap-1.5 text-[10px] sm:text-xs font-bold min-w-0 ${
               onHome ? 'text-ink' : 'text-muted-fg'
             }`}
           >
             <MapPin className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate leading-tight">
+            <span className="leading-tight whitespace-nowrap">
               {SERVICE_AREA_LABEL}
               <span className="hidden sm:inline"> · {serviceHoursSummary()}</span>
             </span>
