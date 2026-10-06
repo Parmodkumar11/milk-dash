@@ -2,8 +2,9 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { CalendarClock, Sparkles } from 'lucide-react';
+import { ArrowDown, CalendarClock, Sparkles, Store } from 'lucide-react';
 import {
   FILTER_CATEGORIES,
   getFilterLabel,
@@ -98,6 +99,43 @@ export default function ShopHome() {
 
   return (
     <div className="pb-32">
+      <section className="relative isolate overflow-hidden bg-[#123b22] text-white">
+        <div className="absolute inset-y-0 right-0 w-[62%] sm:w-1/2">
+          <Image
+            src="/catalog/grocery.jpg"
+            alt="Fresh groceries displayed in a local shop"
+            fill
+            priority
+            sizes="(max-width: 640px) 62vw, 50vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#123b22] via-[#123b22]/75 to-[#123b22]/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#123b22]/40 to-transparent sm:hidden" />
+        </div>
+        <div className="relative mx-auto flex min-h-[190px] max-w-6xl items-center px-4 py-5 sm:min-h-[220px] sm:px-6 sm:py-7">
+          <div className="max-w-xl">
+            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white/90 sm:text-xs">
+              <Store className="h-3.5 w-3.5" />
+              Local essentials, delivered
+            </p>
+            <h1 className="max-w-md text-2xl font-extrabold leading-tight sm:text-3xl">
+              Meet HopInMohali
+            </h1>
+            <p className="mt-2 max-w-lg text-xs leading-relaxed text-white/85 sm:text-sm">
+              Your neighborhood ordering and delivery service in Phase 7, Mohali. Shop everyday essentials
+              from nearby stores, request what&apos;s missing, and get it delivered on your schedule.
+            </p>
+            <button
+              type="button"
+              onClick={() => gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-xs font-extrabold text-accent-green shadow-md transition-transform hover:-translate-y-0.5 active:scale-[0.98] sm:text-sm"
+            >
+              Explore local essentials <ArrowDown className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+
       <div className="dd-page w-full pt-3 space-y-4">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <ServiceAreaBanner />

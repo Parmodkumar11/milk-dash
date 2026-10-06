@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { RequestProduct } from '@/data/request-catalog';
 import ProductCard from '@/components/shop/ProductCard';
+import ProductDetailsCarousel from '@/components/shop/ProductDetailsCarousel';
 
 type Props = {
   products: RequestProduct[];
@@ -15,6 +16,7 @@ export default function ProductCarousel({ products, priorityCount = 3 }: Props) 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const checkScroll = useCallback(() => {
     const el = scrollRef.current;
@@ -54,6 +56,7 @@ export default function ProductCarousel({ products, priorityCount = 3 }: Props) 
   if (products.length === 0) return null;
 
   return (
+    <>
     <div className="relative group">
       {/* ── Left arrow ── */}
       <button
@@ -89,7 +92,11 @@ export default function ProductCarousel({ products, priorityCount = 3 }: Props) 
               scrollSnapAlign: 'start',
             }}
           >
-            <ProductCard product={product} priority={idx < priorityCount} />
+            <ProductCard
+              product={product}
+              priority={idx < priorityCount}
+              onOpenDetails={() => setSelectedIndex(idx)}
+            />
           </div>
         ))}
       </div>
@@ -113,5 +120,15 @@ export default function ProductCarousel({ products, priorityCount = 3 }: Props) 
         <ChevronRight className="w-5 h-5 text-ink" />
       </button>
     </div>
+    {selectedIndex !== null ? (
+      <ProductDetailsCarousel
+        key={products[selectedIndex].id}
+        products={products}
+        activeIndex={selectedIndex}
+        onClose={() => setSelectedIndex(null)}
+        onNavigate={setSelectedIndex}
+      />
+    ) : null}
+    </>
   );
 }

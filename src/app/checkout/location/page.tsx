@@ -23,12 +23,21 @@ export default function CheckoutLocationPage() {
   const items = useCartStore((s) => s.items);
   const deliveryLocation = useCartStore((s) => s.deliveryLocation);
   const updateDeliveryLocation = useCartStore((s) => s.updateDeliveryLocation);
-  const { canUseApp, refreshLocation } = useServiceLocation();
+  const {
+    canPlaceOrder,
+    message: locationMessage,
+    refreshLocation,
+    status: locationStatus,
+  } = useServiceLocation();
   const [mounted, setMounted] = useState(false);
   const [landmark, setLandmark] = useState('');
   const [address, setAddress] = useState('');
 
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (mounted) refreshLocation();
+  }, [mounted, refreshLocation]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -53,7 +62,7 @@ export default function CheckoutLocationPage() {
   const lng = deliveryLocation.longitude;
 
   const handleContinue = () => {
-    if (!canUseApp || lat == null || lng == null) {
+    if (!canPlaceOrder || lat == null || lng == null) {
       refreshLocation();
       return;
     }
@@ -75,9 +84,14 @@ export default function CheckoutLocationPage() {
       </Link>
       <h1 className="font-display text-2xl font-semibold mb-1">Your live location</h1>
       <p className="text-sm text-muted-fg mb-4">
-        Delivery uses your current GPS in {SERVICE_AREA_LABEL}. The pin updates automatically when
-        you move.
+        You can browse from any location. Delivery is currently available only in {SERVICE_AREA_LABEL};
+        your live GPS confirms whether this address is eligible.
       </p>
+      {locationStatus !== 'checking' && locationMessage ? (
+        <p className="dd-card mb-4 p-3 text-sm text-muted-fg" role="status">
+          {locationMessage}
+        </p>
+      ) : null}
 
       <div className="dd-card overflow-hidden mb-4 h-[240px]">
         {lat != null && lng != null ? (
@@ -139,7 +153,7 @@ export default function CheckoutLocationPage() {
       <button
         type="button"
         onClick={handleContinue}
-        disabled={!canUseApp || lat == null}
+        disabled={!canPlaceOrder || lat == null || lng == null}
         className="dd-btn-primary w-full justify-center mt-6 disabled:opacity-50"
       >
         Continue

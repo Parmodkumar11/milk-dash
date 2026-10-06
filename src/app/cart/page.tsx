@@ -6,12 +6,10 @@ import { ArrowLeft, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cart-store';
 import ChargesNotice from '@/components/shop/ChargesNotice';
 import CartLineRow from '@/components/shop/CartLineRow';
-import { useServiceLocation } from '@/components/common/ServiceLocationProvider';
 import { cartItemCount, serviceChargeInr } from '@/lib/pricing';
 
 export default function CartPage() {
   const items = useCartStore((s) => s.items);
-  const { canUseApp } = useServiceLocation();
   const [mounted, setMounted] = useState(false);
   const [qtyError, setQtyError] = useState<string | null>(null);
 
@@ -74,7 +72,7 @@ export default function CartPage() {
 
           <Link
             href="/checkout/location"
-            className={`dd-btn-primary w-full justify-center ${!canUseApp ? 'pointer-events-none opacity-50' : ''}`}
+            className="dd-btn-primary w-full justify-center"
           >
             Proceed to checkout
           </Link>

@@ -18,6 +18,9 @@ const DEFAULT_STATE = {
   notes: '',
   deliveryTiming: 'asap' as const,
   scheduledAt: null as string | null,
+  feedingIndiaDonation: false,
+  deliveryPartnerTip: 0,
+  customDeliveryPartnerTip: false,
 };
 
 export const useCartStore = create<CartStoreState>()(
@@ -106,6 +109,9 @@ export const useCartStore = create<CartStoreState>()(
           notes: state.notes,
           deliveryTiming: state.deliveryTiming,
           scheduledAt: state.scheduledAt,
+          feedingIndiaDonation: false,
+          deliveryPartnerTip: 0,
+          customDeliveryPartnerTip: false,
         })),
 
       updateCustomer: (customer) =>
@@ -121,6 +127,14 @@ export const useCartStore = create<CartStoreState>()(
       updateNotes: (notes) => set({ notes }),
       setDeliveryTiming: (timing) => set({ deliveryTiming: timing }),
       setScheduledAt: (iso) => set({ scheduledAt: iso }),
+      setFeedingIndiaDonation: (feedingIndiaDonation) => set({ feedingIndiaDonation }),
+      setDeliveryPartnerTip: (amount) => {
+        const deliveryPartnerTip = Number.isFinite(amount)
+          ? Math.min(10000, Math.max(0, Math.round(amount)))
+          : 0;
+        set({ deliveryPartnerTip });
+      },
+      setCustomDeliveryPartnerTip: (customDeliveryPartnerTip) => set({ customDeliveryPartnerTip }),
     }),
     { name: 'hopin-cart-v4' }
   )

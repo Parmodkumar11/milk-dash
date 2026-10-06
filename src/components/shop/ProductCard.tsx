@@ -19,9 +19,10 @@ import QuantityControl from '@/components/shop/QuantityControl';
 type Props = {
   product: RequestProduct;
   priority?: boolean;
+  onOpenDetails?: () => void;
 };
 
-export default function ProductCard({ product, priority }: Props) {
+export default function ProductCard({ product, priority, onOpenDetails }: Props) {
   const { locale } = useLocale();
   const items = useCartStore((s) => s.items);
   const addCatalogItem = useCartStore((s) => s.addCatalogItem);
@@ -65,36 +66,47 @@ export default function ProductCard({ product, priority }: Props) {
   };
 
   const onImgError = () => {
-    setImgIdx((prev) => {
-      const next = prev + 1;
-      if (candidates[next]) setImgSrc(candidates[next]);
-      return next;
-    });
+    const next = imgIdx + 1;
+    if (candidates[next]) {
+      setImgIdx(next);
+      setImgSrc(candidates[next]);
+    }
   };
 
   return (
-    <article className="dd-card flex flex-col h-full min-h-[168px] overflow-hidden active:scale-[0.98] transition-transform">
-      <div className="relative aspect-[4/5] max-h-[100px] sm:max-h-[120px] bg-muted overflow-hidden">
+    <article className="dd-card group flex flex-col h-full min-h-[168px] overflow-hidden active:scale-[0.98] transition-transform">
+      <button
+        type="button"
+        onClick={onOpenDetails}
+        aria-label={`View ${displayName(product, locale)} details`}
+        className="relative aspect-[4/3] max-h-[104px] w-full overflow-hidden bg-[#f7f9f6] text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-green sm:max-h-[120px]"
+      >
         <Image
           src={imgSrc}
-          alt=""
+          alt={displayName(product, locale)}
           fill
-          sizes="(max-width: 640px) 33vw, 20vw"
-          className="object-cover"
+          sizes="(max-width: 640px) 33vw, 160px"
+          className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
           onError={onImgError}
           priority={priority}
           loading={priority ? 'eager' : 'lazy'}
         />
-      </div>
+      </button>
       <div className="p-2 flex flex-col flex-1 gap-1.5">
-        <h3 className="font-semibold text-[11px] sm:text-xs leading-snug line-clamp-2 min-h-[2.25rem]">
+        <button
+          type="button"
+          onClick={onOpenDetails}
+          className="min-h-[2.25rem] text-left font-semibold text-[11px] leading-snug line-clamp-2 hover:text-accent-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-green sm:text-xs"
+        >
           {displayName(product, locale)}
-        </h3>
+        </button>
         {secondary ? (
-          <p className="text-[10px] text-muted-fg line-clamp-1 -mt-1">{secondary}</p>
-        ) : null}
+          <p className="min-h-4 text-[10px] text-muted-fg line-clamp-1 -mt-1">{secondary}</p>
+        ) : (
+          <span aria-hidden="true" className="min-h-4 -mt-1" />
+        )}
         {!inCart ? (
-          <div className="flex flex-wrap gap-1">
+          <div className="flex min-h-5 flex-wrap content-start gap-1">
             {unitConfig.presets.slice(0, 3).map((preset) => (
               <span
                 key={preset}
@@ -105,12 +117,12 @@ export default function ProductCard({ product, priority }: Props) {
             ))}
           </div>
         ) : (
-          <p className="text-[10px] font-bold text-accent-green">
+          <p className="flex min-h-5 items-center text-[10px] font-bold text-accent-green">
             {formatQuantity(line.quantity, unitConfig.kind)}
           </p>
         )}
         {error ? <p className="text-[10px] text-primary font-medium leading-tight">{error}</p> : null}
-        <div className="mt-auto flex justify-end">
+        <div className="mt-auto flex min-h-9 items-center justify-end">
           {inCart ? (
             <QuantityControl
               quantity={line.quantity}
@@ -134,7 +146,7 @@ export default function ProductCard({ product, priority }: Props) {
             <button
               type="button"
               onClick={() => handleAdd()}
-              className={`rounded-lg px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide transition-all ${
+              className={`h-9 w-[72px] shrink-0 rounded-lg px-2 text-[11px] font-extrabold uppercase tracking-wide transition-all ${
                 addedFlash
                   ? 'bg-brand-yellow text-ink animate-pop'
                   : 'bg-accent-green text-white hover:bg-accent-green-hover'

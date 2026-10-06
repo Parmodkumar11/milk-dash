@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, MessageSquare, CheckCircle2, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -16,6 +16,11 @@ import { lineDisplayName } from '@/lib/i18n/catalog-display';
 import SessionClosedModal from '@/components/common/SessionClosedModal';
 import OutsideServiceModal from '@/components/shop/OutsideServiceModal';
 import { formatQuantity, unitConfigForProduct } from '@/lib/product-units';
+import CheckoutExtras from '@/components/shop/CheckoutExtras';
+
+const subscribeToMount = () => () => {};
+const getClientMountSnapshot = () => true;
+const getServerMountSnapshot = () => false;
 
 export default function CheckoutConfirmPage() {
   const router = useRouter();
@@ -25,22 +30,38 @@ export default function CheckoutConfirmPage() {
   const notes = useCartStore((s) => s.notes);
   const deliveryTiming = useCartStore((s) => s.deliveryTiming);
   const scheduledAt = useCartStore((s) => s.scheduledAt);
+  const feedingIndiaDonation = useCartStore((s) => s.feedingIndiaDonation);
+  const deliveryPartnerTip = useCartStore((s) => s.deliveryPartnerTip);
   const clearCart = useCartStore((s) => s.clearCart);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribeToMount,
+    getClientMountSnapshot,
+    getServerMountSnapshot
+  );
   const [sessionClosed, setSessionClosed] = useState(false);
   const [outsideModal, setOutsideModal] = useState(false);
   const [sent, setSent] = useState(false);
   const [preparing, setPreparing] = useState(false);
   const [orderKey, setOrderKey] = useState('');
-
-  useEffect(() => setMounted(true), []);
+  const [sentCharges, setSentCharges] = useState<{ serviceFee: number; extras: number } | null>(null);
 
   useEffect(() => {
     if (!mounted) return;
     if (items.length === 0 && !sent && !preparing) router.replace('/cart');
-    else if (!deliveryLocation.latitude) router.replace('/checkout/location');
+    else if (deliveryLocation.latitude == null || deliveryLocation.longitude == null) {
+      router.replace('/checkout/location');
+    }
     else if (!customer.name || !customer.phone) router.replace('/checkout/details');
-  }, [mounted, items.length, deliveryLocation.latitude, customer, router, sent, preparing]);
+  }, [
+    mounted,
+    items.length,
+    deliveryLocation.latitude,
+    deliveryLocation.longitude,
+    customer,
+    router,
+    sent,
+    preparing,
+  ]);
 
   if (!mounted) {
     return (
@@ -50,10 +71,11 @@ export default function CheckoutConfirmPage() {
     );
   }
 
-  const lat = deliveryLocation.latitude!;
-  const lng = deliveryLocation.longitude!;
-  const inside = isInsideServiceArea(lat, lng);
+  const lat = deliveryLocation.latitude;
+  const lng = deliveryLocation.longitude;
+  const inside = lat != null && lng != null && isInsideServiceArea(lat, lng);
   const serviceFee = serviceChargeInr(items);
+  const extraCharges = (feedingIndiaDonation ? 1 : 0) + deliveryPartnerTip;
 
   const handleConfirmSend = async () => {
     if (!canPlaceOrderNow(deliveryTiming, scheduledAt)) {
@@ -67,6 +89,7 @@ export default function CheckoutConfirmPage() {
 
     const key = `ord-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     setOrderKey(key);
+    setSentCharges({ serviceFee, extras: extraCharges });
 
     setPreparing(true);
     const url = generateHopInOrderWhatsAppUrl({
@@ -75,6 +98,8 @@ export default function CheckoutConfirmPage() {
       lines: items,
       notes,
       scheduledAt: deliveryTiming === 'scheduled' ? scheduledAt : null,
+      feedingIndiaDonation,
+      deliveryPartnerTip,
     });
 
     await new Promise((r) => setTimeout(r, 750));
@@ -91,8 +116,9 @@ export default function CheckoutConfirmPage() {
         <CheckCircle2 className="w-16 h-16 text-accent-green mx-auto animate-success" />
         <h1 className="text-2xl font-extrabold">Order ready to send</h1>
         <p className="text-sm text-muted-fg">
-          Complete the message in WhatsApp. Pay the shop bill plus ₹{serviceFee} service charge at
-          delivery.
+          Complete the message in WhatsApp. At delivery, pay the shop bill plus ₹
+          {(sentCharges?.serviceFee ?? serviceFee) + (sentCharges?.extras ?? 0)} in service charge
+          {sentCharges?.extras ? ' and selected extras' : ''}.
         </p>
         <Link href="/" className="dd-btn-primary inline-flex justify-center">
           Back to home
@@ -170,6 +196,15 @@ export default function CheckoutConfirmPage() {
           <span className="text-muted-fg">Mobile: </span>
           {customer.phone}
         </p>
+      </div>
+
+      <div className="mb-6">
+        <CheckoutExtras />
+        {extraCharges > 0 ? (
+          <p className="mt-2 text-right text-xs font-semibold text-muted-fg">
+            Selected donation and tip: ₹{extraCharges}
+          </p>
+        ) : null}
       </div>
 
       {preparing ? (

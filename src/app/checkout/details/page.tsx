@@ -37,8 +37,10 @@ export default function CheckoutDetailsPage() {
   useEffect(() => {
     if (!mounted) return;
     if (items.length === 0) router.replace('/cart');
-    else if (!deliveryLocation.latitude) router.replace('/checkout/location');
-  }, [mounted, items.length, deliveryLocation.latitude, router]);
+    else if (deliveryLocation.latitude == null || deliveryLocation.longitude == null) {
+      router.replace('/checkout/location');
+    }
+  }, [mounted, items.length, deliveryLocation.latitude, deliveryLocation.longitude, router]);
 
   useEffect(() => {
     if (!mounted) return;

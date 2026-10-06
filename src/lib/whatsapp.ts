@@ -14,11 +14,23 @@ export type HopInOrderPayload = {
   lines: CartLine[];
   notes: string;
   scheduledAt?: string | null;
+  feedingIndiaDonation?: boolean;
+  deliveryPartnerTip?: number;
 };
 
 export function generateHopInOrderWhatsAppUrl(order: HopInOrderPayload): string {
-  const { customer, location, lines, notes, scheduledAt } = order;
+  const {
+    customer,
+    location,
+    lines,
+    notes,
+    scheduledAt,
+    feedingIndiaDonation = false,
+    deliveryPartnerTip = 0,
+  } = order;
   const serviceFee = serviceChargeInr(lines);
+  const donation = feedingIndiaDonation ? 1 : 0;
+  const tip = Math.min(10000, Math.max(0, Math.round(deliveryPartnerTip)));
 
   const itemText = lines
     .map((line, index) => {
@@ -56,6 +68,9 @@ Actual shop bill
 
 *Delivery/Service Charge:*
 ₹${serviceFee} (${serviceChargeFormulaLabel()})
+${tip ? `\n*Delivery Partner Tip:*\n₹${tip}\n` : ''}
+*Additional Charges:*
+₹${serviceFee + donation + tip} (service charge${donation ? ' + donation' : ''}${tip ? ' + tip' : ''})
 
 *Delivery Location:*
 ${location.address || 'Phase 7, Mohali'}

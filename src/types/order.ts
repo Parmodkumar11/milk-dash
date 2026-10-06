@@ -42,6 +42,9 @@ export interface CartStoreState {
   notes: string;
   deliveryTiming: DeliveryTiming;
   scheduledAt: string | null;
+  feedingIndiaDonation: boolean;
+  deliveryPartnerTip: number;
+  customDeliveryPartnerTip: boolean;
 
   addCatalogItem: (product: {
     productId: string;
@@ -66,4 +69,7 @@ export interface CartStoreState {
   updateNotes: (notes: string) => void;
   setDeliveryTiming: (timing: DeliveryTiming) => void;
   setScheduledAt: (iso: string | null) => void;
+  setFeedingIndiaDonation: (enabled: boolean) => void;
+  setDeliveryPartnerTip: (amount: number) => void;
+  setCustomDeliveryPartnerTip: (custom: boolean) => void;
 }
